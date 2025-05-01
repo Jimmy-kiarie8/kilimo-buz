@@ -151,5 +151,30 @@
             @endforeach
         </div>
     </div>
+
+
+    <!-- Location on Map Section -->
+    @if($product->latitude && $product->longitude)
+    <div class="mt-12 bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Location on Map</h2>
+
+
+        <iframe
+    width="100%"
+    height="400"
+    frameborder="0"
+    style="border:0"
+    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAmYSSTxLmq8MWY_p_aeYLq0fKRxVCOqRs&q={{ $product->latitude }},{{ $product->longitude }}"
+    allowfullscreen>
+</iframe>
+
+    </div>
+
+    @else
+    <div class="mt-12 bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Location on Map</h2>
+        <p class="text-gray-600">No location available for this product.</p>
+    </div>
+    @endif
 </div>
 @endsection
