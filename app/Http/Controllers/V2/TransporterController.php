@@ -1,0 +1,95 @@
+<?php
+
+namespace App\Http\Controllers\V2;
+
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Modules\Usermanagement\Entities\County;
+use App\User;
+use DB;
+use App\Helpers\Helper;
+use Modules\Usermanagement\Entities\Profile;
+use App\Helpers\SystemAudit;
+use Modules\Usermanagement\Entities\ValueChain;
+use Modules\Usermanagement\Entities\NodeType;
+use Modules\Usermanagement\Entities\ProductName;
+use Modules\Usermanagement\Entities\CountyValueChain;
+
+class TransporterController extends Controller
+{
+
+
+    public function getList()
+    {
+          dd("here");
+    }
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
+    public function index()
+    {
+        return view('mobile::index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * @return Renderable
+     */
+    public function create()
+    {
+        return view('mobile::create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Renderable
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Show the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function show($id)
+    {
+        return view('mobile::show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function edit($id)
+    {
+        return view('mobile::edit');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return Renderable
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}

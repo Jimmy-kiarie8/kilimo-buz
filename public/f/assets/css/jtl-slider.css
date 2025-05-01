@@ -1,0 +1,21 @@
+.carousel-item img {
+  max-height: 450px !important;
+}
+
+.carousel-inner .carousel-item {
+  transition-duration: 3s;
+}
+
+.arrow_down {
+  height: 60px;
+}
+
+.rounded-circle {
+  color: #980D16;
+  border: 1px solid #980D16;
+  padding: 8px;
+}
+
+.jtl-box2 {
+  height: 300px;
+}

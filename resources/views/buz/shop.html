@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KILIMO BUZ - Shop</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .custom-checkbox:checked + label:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #348a21;
+            font-size: 0.75rem;
+        }
+
+        .custom-checkbox + label:before {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #CBD5E0;
+            border-radius: 3px;
+            margin-right: 8px;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 16px;
+        }
+
+        .price-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #348a21;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .pagination-active {
+            background-color: #348a21;
+            color: white;
+        }
+        header {
+            background-color: #348a21;
+        }
+        .product-card {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-white text-3xl"><i class="fas fa-store"></i></span>
+                    <h1 class="text-2xl font-bold text-white">KILIMO BUZ</h1>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center flex-1 max-w-xl mx-6">
+                    <div class="w-full relative">
+                        <input type="text" placeholder="Search products, brands and categories..."
+                            class="w-full py-2 pl-4 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <button class="absolute right-3 top-2.5 text-gray-500">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="flex items-center space-x-6">
+
+
+                    <a href="#" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                        Sign In
+                    </a>
+                    <a href="#" class="bg-white-200 text-white px-4 py-2 rounded-lg font-medium hover:bg-white-300 transition-colors">
+                        Sell
+                    </a>
+                    <button class="md:hidden text-white-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Search - Only visible on small screens -->
+    <div class="md:hidden bg-white shadow-sm mb-4 px-4 py-3">
+        <div class="relative">
+            <input type="text" placeholder="Search products, brands and categories..."
+                class="w-full py-2 pl-4 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button class="absolute right-3 top-2.5 text-gray-500">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Shop Page Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Breadcrumbs -->
+        <div class="mb-6">
+            <nav class="flex text-sm">
+                <a href="index.html" class="text-gray-500 hover:text-green-600">Home</a>
+                <span class="mx-2 text-gray-500">/</span>
+                <a href="shop.html" class="text-gray-500 hover:text-green-600">Shop</a>
+                <span class="mx-2 text-gray-500">/</span>
+                <span class="text-green-600">Products</span>
+            </nav>
+        </div>
+
+        <!-- Mobile Filter Toggle -->
+        <div class="md:hidden mb-4">
+            <button id="mobile-filter-toggle" class="w-full bg-white border border-gray-300 text-gray-700 font-medium px-4 py-2 rounded-lg flex items-center justify-center">
+                <i class="fas fa-filter mr-2"></i> Filter Products
+            </button>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-6">
+            <!-- Sidebar Filter -->
+            <div id="filter-sidebar" class="hidden md:block w-full md:w-64 bg-white rounded-lg shadow p-4">
+                <!-- Filter Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-gray-800">Filters</h3>
+                    <button class="text-sm text-green-600 hover:underline">Reset All</button>
+                </div>
+
+                <!-- Categories -->
+                <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h4 class="font-medium text-gray-700 mb-3">Filter By Value Chains</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cat-Banana"
+                                class="hidden custom-checkbox"
+                                checked
+                            >
+                            <label for="cat-Banana" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Banana
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cat-phones"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cat-phones" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Beef
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cat-computers"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cat-computers" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Broilers
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cat-cameras"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cat-cameras" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Camel Milk
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cat-home"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cat-home" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Cassava
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Range -->
+                <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h4 class="font-medium text-gray-700 mb-3">Price Range</h4>
+                    <div class="mb-4">
+                        <input
+                            type="range"
+                            min="0"
+                            max="200000"
+                            value="100000"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer price-range"
+                        >
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600">KSh 0</span>
+                        <span class="text-sm text-gray-600">KSh 200,000</span>
+                    </div>
+                    <div class="flex items-center mt-3 space-x-2">
+                        <input type="text" placeholder="Min" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm">
+                        <span class="text-gray-500">-</span>
+                        <input type="text" placeholder="Max" class="w-full px-2 py-1 border border-gray-300 rounded-md text-sm">
+                        <button class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-sm">Go</button>
+                    </div>
+                </div>
+
+                <!-- Brand -->
+                <!-- <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h4 class="font-medium text-gray-700 mb-3">Brand</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="brand-samsung"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="brand-samsung" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Samsung
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="brand-apple"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="brand-apple" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Apple
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="brand-sony"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="brand-sony" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Sony
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="brand-lg"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="brand-lg" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                LG
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="brand-dell"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="brand-dell" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Dell
+                            </label>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- Condition -->
+                <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h4 class="font-medium text-gray-700 mb-3">Condition</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cond-new"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cond-new" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                New
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cond-used"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cond-used" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Used - Like New
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="cond-fair"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="cond-fair" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Used - Fair
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="border-b border-gray-200 pb-4 mb-4">
+                    <h4 class="font-medium text-gray-700 mb-3">Location</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="county-nairobi"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="county-nairobi" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Nairobi
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="county-mombasa"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="county-mombasa" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Mombasa
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="county-nakuru"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="county-nakuru" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Nakuru
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="county-kisumu"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="county-kisumu" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Kisumu
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="county-eldoret"
+                                class="hidden custom-checkbox"
+                            >
+                            <label for="county-eldoret" class="flex items-center cursor-pointer text-gray-600 hover:text-green-600">
+                                Eldoret
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply Filters Button (Mobile) -->
+                <div class="md:hidden">
+                    <button class="w-full bg-green-600 text-white font-medium py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        Apply Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Listing -->
+            <div class="flex-1">
+                <!-- Top Bar -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="mb-4 md:mb-0">
+                            <h2 class="text-xl font-bold text-gray-800">Shop</h2>
+                            <p class="text-sm text-gray-500">Showing 1-12 of 84 products</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full md:w-auto space-y-3 sm:space-y-0 sm:space-x-4">
+                            <div class="w-full sm:w-48">
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option>Sort by: Featured</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Price: High to Low</option>
+                                    <option>Newest First</option>
+                                    <option>Oldest First</option>
+                                    <option>Most Popular</option>
+                                </select>
+                            </div>
+                            <div class="w-full sm:w-32">
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option>12 per page</option>
+                                    <option>24 per page</option>
+                                    <option>36 per page</option>
+                                    <option>48 per page</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product 1 -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400" alt="Product image" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
+                                NEW
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Organic Tomatoes</h3>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh 150</p>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(42)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Nairobi</span>
+                                </div>
+                                <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400" alt="Product image" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Freshly Picked Spinach</h3>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh 100</p>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(28)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Westlands</span>
+                                </div>
+                                <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400" alt="Product image" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-0 left-0 bg-red-500 text-white text-xs font-medium px-2 py-1">
+                                SALE
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Organic Fresh Carrots</h3>
+                            <div class="flex items-center mb-2">
+                                <p class="text-green-600 font-bold text-lg">KSh 80</p>
+                                <p class="text-gray-500 text-sm line-through ml-2">KSh 100</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(16)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Mombasa</span>
+                                </div>
+                                <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400" alt="Product image" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Green Bell Peppers</h3>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh 120</p>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(9)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Nakuru</span>
+                                </div>
+                                <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400" alt="Product image" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Organic Potatoes</h3>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh 90</p>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(12)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Karen</span>
+                                </div>
+                                <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                        <div class="relative">
+                            <img src="https://placehold.co/600x400" alt="Product image" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-0 left-0 bg-red-500 text-white text-xs font-medium px-2 py-1">
+                                SALE
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Organic Cabbage</h3>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh 70</p>
+                            <div class="flex items-center mb-2">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">(12)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Karen</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

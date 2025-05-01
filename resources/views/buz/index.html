@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KILIMO BUZ</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(90deg, #348a21 0%, #255a1a 100%);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .featured-gradient {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+        }
+        header {
+            background-color: #348a21;
+        }
+        .slider-container {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-white text-3xl"><i class="fas fa-store"></i></span>
+                    <h1 class="text-2xl font-bold text-white">KILIMO BUZ</h1>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="hidden md:flex items-center flex-1 max-w-xl mx-6">
+                    <div class="w-full relative">
+                        <input type="text" placeholder="Search farm produce, brands and categories..."
+                            class="w-full py-2 pl-4 pr-10 rounded-lg border border-white focus:outline-none focus:ring-2 focus:ring-green-500" style="color: #fff;">
+                        <button class="absolute right-3 top-2.5 text-white">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="flex items-center space-x-6">
+                    <!-- <a href="#" class="hidden md:block text-white hover:text-green-600"><i class="far fa-heart"></i> Favorites</a> -->
+
+                    <a href="#" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                        Sign In
+                    </a>
+                    <a href="#" class="bg-white-200 text-white px-4 py-2 rounded-lg font-medium hover:bg-white-300 transition-colors">
+                        Sell
+                    </a>
+                    <button class="md:hidden text-white-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Mobile Search - Only visible on small screens -->
+    <div class="md:hidden bg-white shadow-sm mb-4 px-4 py-3">
+        <div class="relative">
+            <input type="text" placeholder="Search farm produce, brands and categories..."
+                class="w-full py-2 pl-4 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <button class="absolute right-3 top-2.5 text-gray-500">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-12 mb-10">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-4xl font-bold mb-4">KILIMO BUZ ` SOKO MKONONI `</h2>
+                    <p class="text-lg mb-6 text-green-100">KILIMO BUZ is an online shop for value chain actors to market their farm produce free of charge. It enables buyers to access fresh produce at a mouse click unlike traditional methods.
+
+                        For Value Chain Actors to market their produce, they must be registered under a VCO and given a unique identifier.</p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="shop.html" class="bg-white text-green-600 font-medium px-6 py-3 rounded-lg text-center hover:bg-gray-100 transition-colors">
+                            Shop Now
+                        </a>
+                        <a href="#" class="border border-white text-white font-medium px-6 py-3 rounded-lg text-center hover:bg-white hover:text-green-600 transition-colors">
+                            Become a Seller
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://images.pexels.com/photos/422218/pexels-photo-422218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="People shopping online" class="rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Categories Section -->
+    <section class="container mx-auto px-4 mb-12 slider-container">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Value Chains</h2>
+            <a href="/shop" class="text-green-600 hover:underline">View All</a>
+        </div>
+
+        <!-- Swiper Container -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Category 1 -->
+                <div class="swiper-slide">
+                    <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-apple-alt text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Banana</h3>
+                        <p class="text-xs text-gray-500 mt-1">12,463 ads</p>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="swiper-slide">
+                    <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-carrot text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Vegetables</h3>
+                        <p class="text-xs text-gray-500 mt-1">8,271 ads</p>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="swiper-slide">
+                    <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                        <div class="w-12 h-12 bg-grey-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-fish text-grey-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Fish</h3>
+                        <p class="text-xs text-gray-500 mt-1">15,832 ads</p>
+                    </div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="swiper-slide">
+                    <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-glass-whiskey text-yellow-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Cow Milk</h3>
+                        <p class="text-xs text-gray-500 mt-1">5,129 ads</p>
+                    </div>
+                </div>
+
+                <!-- Category 5 -->
+                <div class="swiper-slide">
+                    <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-pepper-hot text-red-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Tomato</h3>
+                        <p class="text-xs text-gray-500 mt-1">7,984 ads</p>
+                    </div>
+                </div>
+
+                <!-- Category 6 -->
+                <div class="swiper-slide">
+                    <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fas fa-lemon text-indigo-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800">Fruits</h3>
+                        <p class="text-xs text-gray-500 mt-1">3,542 ads</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Pagination -->
+            <!-- <div class="swiper-pagination"></div> -->
+        </div>
+    </section>
+
+    <!-- Featured Farm Produce -->
+    <section class="container mx-auto px-4 mb-12">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Featured Farm Produce</h2>
+            <a href="/shop" class="text-green-600 hover:underline">View All</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Produce 1 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Organic Bananas</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 120 per kg</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Nairobi</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 2 days ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produce 2 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Tomatoes</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 85 per kg</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Mombasa</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 1 week ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produce 3 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Fish</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 1,500 per kg</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Kisumu</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 3 days ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produce 4 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Cow Milk</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 60 per liter</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Nakuru</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted today</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offer Banner -->
+    <section class="container mx-auto px-4 mb-12">
+        <div class="relative rounded-xl overflow-hidden">
+            <img src="https://placehold.co/1200x300" alt="Special offer" class="w-full h-64 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-green-900/80 to-grey-900/50 flex items-center">
+                <div class="px-8 max-w-lg">
+                    <span class="bg-yellow-500 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block">LIMITED TIME</span>
+                    <h3 class="text-3xl font-bold text-white mb-2">Flash Sale! Up to 70% Off</h3>
+                    <p class="text-green-100 mb-4">Don't miss out on our biggest sale of the season. Fresh farm produce at unbeatable prices.</p>
+                    <a href="#" class="bg-white text-green-600 px-6 py-2 rounded-lg font-medium inline-block hover:bg-green-50 transition-colors">
+                        Shop Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Farm Produce -->
+    <section class="container mx-auto px-4 mb-12">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Latest Farm Produce</h2>
+            <a href="/shop" class="text-green-600 hover:underline">View All</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Produce 1 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Organic Tomatoes</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 150 per kg</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Nairobi</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 2 hours ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produce 2 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Green Spinach</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 100 per bunch</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Eldoret</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 1 day ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produce 3 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Cow Milk</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 60 per liter</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Kisumu</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 3 days ago</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produce 4 -->
+            <div class="bg-white rounded-lg shadow overflow-hidden group">
+                <div class="relative">
+                    <img src="https://placehold.co/600x400" alt="Produce image" class="w-full h-48 object-cover">
+                    <div class="absolute top-2 right-2">
+                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                            <i class="far fa-heart text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">Fresh Avocados</h3>
+                    <p class="text-green-600 font-bold text-lg mb-2">KSh 200 per kg</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Nakuru</span>
+                        </div>
+                        <div class="text-xs text-gray-400">Posted 4 hours ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="bg-gray-100 py-12 mb-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-gray-800 text-center mb-10">Why Choose KILIMO BUZ?</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Safe & Secure</h3>
+                    <p class="text-gray-600">All transactions are protected with our secure payment system and buyer protection policy.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-tag text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Best Prices</h3>
+                    <p class="text-gray-600">Find the best deals directly from sellers without middlemen or extra fees.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                    <div class="w-16 h-16 bg-grey-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-grey-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Trusted Community</h3>
+                    <p class="text-gray-600">Join millions of Kenyans buying and selling with verified profiles and ratings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section class="container mx-auto px-4 mb-16">
+        <div class="bg-green-600 rounded-xl overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 p-8 md:p-12">
+                    <h2 class="text-3xl font-bold text-white mb-4">Download Our Mobile App</h2>
+                    <p class="text-green-100 mb-6">Get the best shopping experience on the go. Browse thousands of farm produce, chat with sellers, and manage your listings from anywhere.</p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="#" class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors">
+                            <i class="fab fa-apple text-2xl mr-2"></i>
+                            <div>
+                                <div class="text-xs">Download on the</div>
+                                <div class="font-medium">App Store</div>
+                            </div>
+                        </a>
+                        <a href="#" class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors">
+                            <i class="fab fa-google-play text-2xl mr-2"></i>
+                            <div>
+                                <div class="text-xs">Get it on</div>
+                                <div class="font-medium">Google Play</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/600x400" alt="Mobile app mockup" class="w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="container mx-auto px-4 mb-16">
+        <div class="bg-gray-100 rounded-xl p-8 md:p-12">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-3">Subscribe to Our Newsletter</h2>
+                <p class="text-gray-600 mb-6">Get the latest deals, farm produce updates and marketplace news directly to your inbox.</p>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0">
+                    <input type="email" placeholder="Your email address" class="flex-1 px-4 py-3 rounded-l-lg sm:rounded-r-none border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <button class="bg-green-600 text-white font-medium px-6 py-3 rounded-lg sm:rounded-l-none hover:bg-green-700 transition-colors">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Brands -->
+    <section class="container mx-auto px-4 mb-16">
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Partners</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div class="bg-white rounded-lg p-4 flex items-center justify-center border border-gray-200 hover:shadow-md transition-shadow">
+                <img src="https://placehold.co/120x60" alt="Brand logo" class="h-12">
+            </div>
+            <div class="bg-white rounded-lg p-4 flex items-center justify-center border border-gray-200 hover:shadow-md transition-shadow">
+                <img src="https://placehold.co/120x60" alt="Brand logo" class="h-12">
+            </div>
+            <div class="bg-white rounded-lg p-4 flex items-center justify-center border border-gray-200 hover:shadow-md transition-shadow">
+                <img src="https://placehold.co/120x60" alt="Brand logo" class="h-12">
+            </div>
+            <div class="bg-white rounded-lg p-4 flex items-center justify-center border border-gray-200 hover:shadow-md transition-shadow">
+                <img src="https://placehold.co/120x60" alt="Brand logo" class="h-12">
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="w-full bg-green-800 text-white">
+        <!-- Main Footer Content -->
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <h5 class="text-xl font-bold mb-6">Kilimo Buz</h5>
+                    <p class="text-gray-300 mb-4">Your one-stop destination for quality products at great prices.</p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Shop Links -->
+                <div>
+                    <h5 class="text-xl font-bold mb-6">Value Chains</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Banana</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Beef</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Fish</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Cow Milk</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Tomato</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Vegetables</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Service -->
+                <div>
+                    <h5 class="text-xl font-bold mb-6">Customer Service</h5>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">FAQs</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Returns & Exchanges</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Size Guide</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h5 class="text-xl font-bold mb-6">Stay Updated</h5>
+                    <p class="text-gray-300 mb-4">Subscribe to our newsletter for the latest products, offers, and updates.</p>
+                    <form class="mt-4">
+                        <div class="flex flex-col space-y-3">
+                            <input
+                                type="email"
+                                placeholder="Your email address"
+                                class="px-4 py-2 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                            >
+                            <button
+                                type="submit"
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                            >
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="mt-12 border-t border-gray-600 pt-8">
+                <h6 class="text-sm font-semibold mb-4">Accepted Payment Methods</h6>
+                <div class="flex flex-wrap gap-4">
+                    <div class="bg-white p-2 rounded w-12 h-8 flex items-center justify-center">
+                        <span class="text-gray-800 font-bold text-xs">VISA</span>
+                    </div>
+                    <div class="bg-white p-2 rounded w-12 h-8 flex items-center justify-center">
+                        <span class="text-gray-800 font-bold text-xs">MC</span>
+                    </div>
+                    <div class="bg-white p-2 rounded w-12 h-8 flex items-center justify-center">
+                        <span class="text-gray-800 font-bold text-xs">AMEX</span>
+                    </div>
+                    <div class="bg-white p-2 rounded w-12 h-8 flex items-center justify-center">
+                        <span class="text-gray-800 font-bold text-xs">PAYPAL</span>
+                    </div>
+                    <div class="bg-white p-2 rounded w-16 h-8 flex items-center justify-center">
+                        <span class="text-gray-800 font-bold text-xs">APPLE PAY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div class="bg-green-900 py-6">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
+                <div class="text-sm text-gray-400">
+                    &copy; 2025 Kilimo Buz. All rights reserved.
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <ul class="flex space-x-6 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: true,
+            autoplay: {
+                delay: 3000, // 3 seconds
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 40,
+                },
+            },
+        });
+    </script>
+</body>
+</html>
