@@ -45,8 +45,8 @@
                                 <div class="font-medium">App Store</div>
                             </div>
                         </a>
-                        <a href="#"
-                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors">
+                        <a href="https://play.google.com/store/apps/details?id=com.kilimobuz_2024&pcampaignid=web_share"
+                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors" target="_blank">
                             <i class="fab fa-google-play text-2xl mr-2"></i>
                             <div>
                                 <div class="text-xs">Get it on</div>
@@ -291,8 +291,8 @@
                                 <div class="font-medium">App Store</div>
                             </div>
                         </a>
-                        <a href="#"
-                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors">
+                        <a href="https://play.google.com/store/apps/details?id=com.kilimobuz_2024&pcampaignid=web_share"
+                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors" target="_blank">
                             <i class="fab fa-google-play text-2xl mr-2"></i>
                             <div>
                                 <div class="text-xs">Get it on</div>
@@ -313,14 +313,22 @@
     <section class="container mx-auto px-4 mb-16">
         <div class="bg-gray-100 rounded-xl p-8 md:p-12">
             <div class="max-w-2xl mx-auto text-center">
-                <h2 class="text-2xl font-bold text-gray-800 mb-3">Subscribe to Our Newsletter</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-3">Subscribe for alerts</h2>
                 <p class="text-gray-600 mb-6">Get the latest deals, farm produce updates and marketplace news directly to
                     your inbox.</p>
-                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0">
+                <div class="flex flex-col space-y-3">
                     <input type="email" placeholder="Your email address"
-                        class="flex-1 px-4 py-3 rounded-l-lg sm:rounded-r-none border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+
+                    <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="">Select a value chain</option>
+                        @foreach ($chains as $item)
+                        <option value="{{ $item->value_name }}">{{ $item->value_name }}</option>
+                        @endforeach
+                    </select>
+
                     <button
-                        class="bg-green-600 text-white font-medium px-6 py-3 rounded-lg sm:rounded-l-none hover:bg-green-700 transition-colors">
+                        class="w-full bg-green-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
                         Subscribe
                     </button>
                 </div>
@@ -330,7 +338,7 @@
 
 
     <!-- Popular Brands -->
-    <section class="container mx-auto px-4 mb-16">
+    {{-- <section class="container mx-auto px-4 mb-16">
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Partners</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <div
@@ -350,5 +358,5 @@
                 <img src="https://placehold.co/120x60" alt="Brand logo" class="h-12">
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection

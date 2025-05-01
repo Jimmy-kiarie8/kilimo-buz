@@ -16,7 +16,7 @@
         }
 
         .hero-gradient {
-            background: linear-gradient(90deg, #348a21 0%, #255a1a 100%);
+            background: linear-gradient(90deg, #348a21 0%, #36b91b 100%);
         }
 
         .category-card:hover {
