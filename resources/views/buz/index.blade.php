@@ -129,8 +129,10 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
-                            {{ $item->value_name }}</h3>
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
+                                {{ $item->variety }}</h3>
+                                <small class="text-gray-500">
+                                    {{ $item->value_name }}</small>
                         <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $item->unit_price }} per {{ $item->uom }}
                         </p>
                         <div class="flex items-center justify-between">
@@ -189,7 +191,9 @@
                     </div>
                 </div>
                 <div class="p-4">
-                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">{{ $item->value_name }}</h3>
+                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">{{ $item->variety }}</h3>
+                    <small class="text-gray-500">
+                        {{ $item->value_name }}</small>
                     <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $item->unit_price }} per {{ $item->uom }}</p>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center text-sm text-gray-500">

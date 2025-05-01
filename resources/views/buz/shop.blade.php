@@ -727,7 +727,6 @@
             if (productsGrid) {
                 productsGrid.innerHTML = '<div class="col-span-3 py-20 text-center"><div class="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-green-600 rounded-full" role="status"><span class="sr-only">Loading...</span></div><p class="mt-2 text-gray-500">Loading products...</p></div>';
             }
-
             // Construct the query parameters
             const params = new URLSearchParams();
 
@@ -745,8 +744,10 @@
             params.append('perPage', filters.perPage);
             params.append('page', filters.page);
 
+            const url = "{{ url('/api/V1/filterProducts') }}" + '?' + params.toString();
+
             // Make API request
-            fetch(`/api/V1/filterProducts?${params.toString()}`, {
+            fetch(url, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json'
