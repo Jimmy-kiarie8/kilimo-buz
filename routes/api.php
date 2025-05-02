@@ -52,5 +52,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::any('/V1/filterProducts', '\App\Http\Controllers\V2\CountiesController@filterProducts');
-Route::any('/V1/test', '\App\Http\Controllers\V2\CountiesController@testApi');
+Route::any('/V1/filterProducts', '\App\Http\Controllers\V2\BuzApiController@filterProducts');
+Route::any('/V1/test', '\App\Http\Controllers\V2\BuzApiController@testApi');
+
+Route::any('/V1/searchProducts/{search}', '\App\Http\Controllers\V2\BuzApiController@searchProducts');
+Route::any('/V1/getCountyByValueChain/{id}', '\App\Http\Controllers\V2\BuzApiController@getCountyByValueChain');
