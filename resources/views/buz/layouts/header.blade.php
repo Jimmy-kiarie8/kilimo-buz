@@ -26,7 +26,7 @@
             <div class="hidden md:flex items-center flex-1 max-w-xl mx-6">
                 <form id="search-form" action="/shop" method="GET" class="w-full">
                     <div class="w-full relative">
-                        <input type="text" id="header-search" name="search" placeholder="Search farm produce, brands and categories..."
+                        <input type="text" id="header-search" name="search" placeholder="Search farm produce, and value chains..."
                             class="w-full py-2 pl-4 pr-10 rounded-lg border border-white focus:outline-none focus:ring-2 focus:ring-green-500" style="color: #fff;">
                         <button type="submit" class="absolute right-3 top-2.5 text-white">
                             <i class="fas fa-search"></i>

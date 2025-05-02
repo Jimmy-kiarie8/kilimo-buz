@@ -3,7 +3,8 @@
 namespace Modules\Usermanagement\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+// Remove the old Factory import
+// use Illuminate\Database\Eloquent\Factory;
 
 class UsermanagementServiceProvider extends ServiceProvider
 {
@@ -24,12 +25,13 @@ class UsermanagementServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-         
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+
+        // We'll handle factories differently now, so we can remove the call to registerFactories()
+        // $this->registerFactories();
     }
 
     /**
@@ -92,16 +94,18 @@ class UsermanagementServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an additional directory of factories.
-     *
-     * @return void
+     * Note: In Laravel 8+, the factory registration is handled differently.
+     * Factory classes are auto-discovered from the Database/Factories directory.
+     * We can remove this method as it's using the old approach.
      */
+    /*
     public function registerFactories()
     {
         if (! app()->environment('production') && $this->app->runningInConsole()) {
             app(Factory::class)->load(module_path($this->moduleName, 'Database/factories'));
         }
     }
+    */
 
     /**
      * Get the services provided by the provider.

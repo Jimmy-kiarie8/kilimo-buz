@@ -91,12 +91,14 @@
                         Open On App
                     </button>
 
-                    <button
-                        class="flex-1 bg-white border border-green-600 text-green-600 py-3 px-6 rounded-lg hover:bg-green-50 transition-colors"
-                        onclick="window.open('https://maps.google.com/?q={{ $product->latitude }},{{ $product->longitude }}', '_blank')">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        View in map
-                    </button>
+                    @if ($product->latitude && $product->longitude)
+                        <button
+                            class="flex-1 bg-white border border-green-600 text-green-600 py-3 px-6 rounded-lg hover:bg-green-50 transition-colors"
+                            onclick="window.open('https://maps.google.com/?q={{ $product->latitude }},{{ $product->longitude }}', '_blank')">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            View in map
+                        </button>
+                    @endif
                 </div>
 
                 <br>
