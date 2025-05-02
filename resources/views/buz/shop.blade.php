@@ -1164,7 +1164,7 @@
                                 </button>
                             </div>
                             ${new Date(product.created_at) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? `
-                            <div class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
+                            <div class="absolute top-0 left-0 bg-green-700 text-white text-xs font-medium px-2 py-1">
                                 NEW
                             </div>
                             ` : ''}
