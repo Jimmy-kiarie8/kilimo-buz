@@ -29,7 +29,7 @@
                             class="bg-white text-green-600 font-medium px-6 py-3 rounded-lg text-center hover:bg-gray-100 transition-colors">
                             Shop Now
                         </a>
-                        <a href="#"
+                        <a href="/contact"
                             class="border border-white text-white font-medium px-6 py-3 rounded-lg text-center hover:bg-white hover:text-green-600 transition-colors">
                             Become a Seller
                         </a>
@@ -46,7 +46,8 @@
                             </div>
                         </a>
                         <a href="https://play.google.com/store/apps/details?id=com.kilimobuz_2024&pcampaignid=web_share"
-                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors" target="_blank">
+                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors"
+                            target="_blank">
                             <i class="fab fa-google-play text-2xl mr-2"></i>
                             <div>
                                 <div class="text-xs">Get it on</div>
@@ -92,16 +93,18 @@
                 <!-- Category 1 -->
                 @foreach ($chains as $item)
                     <div class="swiper-slide">
-                <a href="/shop?search={{ $item->value_name }}">
-                        <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
-                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-tractor text-green-600 text-xl"></i>
+                        <a href="/shop?search={{ $item->value_name }}">
+                            <div
+                                class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
+                                <div
+                                    class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <i class="fas fa-tractor text-green-600 text-xl"></i>
+                                </div>
+                                <h3 class="font-medium text-gray-800">{{ $item->value_name }}</h3>
+                                <p class="text-xs text-gray-500 mt-1">{{ $item->quantity_available }}</p>
                             </div>
-                            <h3 class="font-medium text-gray-800">{{ $item->value_name }}</h3>
-                            <p class="text-xs text-gray-500 mt-1">{{ $item->quantity_available }}</p>
-                        </div>
-                </a>
-            </div>
+                        </a>
+                    </div>
                 @endforeach
             </div>
             <!-- Add Pagination -->
@@ -119,34 +122,35 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Produce 1 -->
             @foreach ($featured as $item)
-            <a href="/product-detail/{{ $item->id }}">
-                <div class="bg-white rounded-lg shadow overflow-hidden group">
-                    <div class="relative">
-                        <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
-                            class="w-full h-48 object-cover">
-                        <div class="absolute top-2 right-2">
-                            <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                                <i class="far fa-heart text-gray-600"></i>
-                            </button>
+                <a href="/product-detail/{{ $item->id }}">
+                    <div class="bg-white rounded-lg shadow overflow-hidden group">
+                        <div class="relative">
+                            <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
+                                class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="p-4">
+                        <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
                                 {{ $item->variety }}</h3>
-                                <small class="text-gray-500">
-                                    {{ $item->value_name }}</small>
-                        <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $item->unit_price }} per {{ $item->uom }}
-                        </p>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <i class="fas fa-map-marker-alt mr-1"></i>
-                                <span>{{ $item->county_name }}</span>
+                            <small class="text-gray-500">
+                                {{ $item->value_name }}</small>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $item->unit_price }} per
+                                {{ $item->uom }}
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>{{ $item->county_name }}</span>
+                                </div>
+                                {{-- <div class="text-xs text-gray-400">Posted 2 days ago</div> --}}
                             </div>
-                            {{-- <div class="text-xs text-gray-400">Posted 2 days ago</div> --}}
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
             @endforeach
         </div>
     </section>
@@ -154,7 +158,7 @@
     <!-- Special Offer Banner -->
     <section class="container mx-auto px-4 mb-12">
         <div class="relative rounded-xl overflow-hidden">
-            <img src="https://placehold.co/1200x300" alt="Special offer" class="w-full h-64 object-cover">
+            <img src="{{ asset('imgs/banner.png') }}" alt="Special offer" class="w-full h-64 object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-green-900/80 to-grey-900/50 flex items-center">
                 <div class="px-8 max-w-lg">
                     <span
@@ -163,7 +167,7 @@
                     <h3 class="text-3xl font-bold text-white mb-2">Flash Sale! Up to 70% Off</h3>
                     <p class="text-green-100 mb-4">Don't miss out on our biggest sale of the season. Fresh farm produce at
                         unbeatable prices.</p>
-                    <a href="#"
+                    <a href="/shop"
                         class="bg-white text-green-600 px-6 py-2 rounded-lg font-medium inline-block hover:bg-green-50 transition-colors">
                         Shop Now
                     </a>
@@ -182,33 +186,36 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Produce 1 -->
             @foreach ($latest as $item)
-            <a href="/product-detail/{{ $item->id }}">
-            <div class="bg-white rounded-lg shadow overflow-hidden group">
-                <div class="relative">
-                    <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image" class="w-full h-48 object-cover">
-                    <div class="absolute top-2 right-2">
-                        <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                            <i class="far fa-heart text-gray-600"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">{{ $item->variety }}</h3>
-                    <small class="text-gray-500">
-                        {{ $item->value_name }}</small>
-                    <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $item->unit_price }} per {{ $item->uom }}</p>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            <span>{{ $item->county_name }}</span>
+                <a href="/product-detail/{{ $item->id }}">
+                    <div class="bg-white rounded-lg shadow overflow-hidden group">
+                        <div class="relative">
+                            <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
+                                class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2">
+                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
+                                    <i class="far fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
                         </div>
-                        {{-- <div class="text-xs text-gray-400">Posted 2 hours ago</div> --}}
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
+                                {{ $item->variety }}</h3>
+                            <small class="text-gray-500">
+                                {{ $item->value_name }}</small>
+                            <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $item->unit_price }} per
+                                {{ $item->uom }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>{{ $item->county_name }}</span>
+                                </div>
+                                {{-- <div class="text-xs text-gray-400">Posted 2 hours ago</div> --}}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-        </a>
-        @endforeach
+                </a>
+            @endforeach
     </section>
 
 
@@ -298,7 +305,8 @@
                             </div>
                         </a>
                         <a href="https://play.google.com/store/apps/details?id=com.kilimobuz_2024&pcampaignid=web_share"
-                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors" target="_blank">
+                            class="bg-black text-white rounded-lg flex items-center justify-center px-4 py-2 hover:bg-gray-900 transition-colors"
+                            target="_blank">
                             <i class="fab fa-google-play text-2xl mr-2"></i>
                             <div>
                                 <div class="text-xs">Get it on</div>
@@ -308,8 +316,8 @@
                     </div>
                 </div>
                 <div class="md:w-1/2">
-                    <img src="https://images.pexels.com/photos/8939506/pexels-photo-8939506.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="Mobile app mockup" class="w-full">
+                    <img src="{{ asset('imgs/mobile.png') }}" style="height: 500px;" alt="Mobile app mockup"
+                        class="w-full">
                 </div>
             </div>
         </div>
@@ -326,10 +334,11 @@
                     <input type="email" placeholder="Your email address"
                         class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
 
-                    <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <select
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="">Select a value chain</option>
                         @foreach ($chains as $item)
-                        <option value="{{ $item->value_name }}">{{ $item->value_name }}</option>
+                            <option value="{{ $item->value_name }}">{{ $item->value_name }}</option>
                         @endforeach
                     </select>
 

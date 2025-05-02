@@ -73,8 +73,7 @@
                 </div>
                 <h3 class="mt-4 text-lg font-medium text-gray-900">Our Office</h3>
                 <p class="mt-2 text-base text-gray-500">
-                    123 Farm Road<br>
-                    Nairobi, Kenya
+                    Cathedral Road,Nairobi, Kilimo House. P.O. Box 30028-00100 Kenya.<br>
                 </p>
             </div>
 
