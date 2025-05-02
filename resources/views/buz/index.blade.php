@@ -92,6 +92,7 @@
                 <!-- Category 1 -->
                 @foreach ($chains as $item)
                     <div class="swiper-slide">
+                <a href="/shop?search={{ $item->value_name }}">
                         <div class="category-card bg-white rounded-lg shadow p-4 text-center transition-all duration-300">
                             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
                                 <i class="fas fa-tractor text-green-600 text-xl"></i>
@@ -99,7 +100,8 @@
                             <h3 class="font-medium text-gray-800">{{ $item->value_name }}</h3>
                             <p class="text-xs text-gray-500 mt-1">{{ $item->quantity_available }}</p>
                         </div>
-                    </div>
+                </a>
+            </div>
                 @endforeach
             </div>
             <!-- Add Pagination -->

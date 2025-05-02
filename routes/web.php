@@ -67,10 +67,7 @@ Route::get('/shop', function () {
 join value_chains on value_chains.id=products.value_chain_id
  where products.is_deleted is null ");
 
-    $data['products'] = Product::join('value_chains', 'value_chains.id', '=', 'products.value_chain_id')
-        ->select('products.id', 'value_name', 'uom', 'variety', 'quantity_available', 'products.unit_price', 'product_code', 'product_image', 'products.county_name')
-        ->whereNull('is_deleted')
-        ->whereNotNull('product_image')->paginate(12);
+    $data['products'] = Product::whereNull('variety')->paginate(12);
 
         // dd($data['products']);
 
@@ -86,6 +83,10 @@ Route::get('/product-detail/{id}', function ($id) {
     $data['relatedProducts'] = $relatedProducts;
     return view('buz.product-detail', $data);
 })->name('product-detail');
+
+Route::get('/contact', function () {
+    return view('buz.contact');
+})->name('contact');
 
 
 

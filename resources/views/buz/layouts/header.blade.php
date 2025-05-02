@@ -4,10 +4,17 @@
             <!-- Logo -->
             <a href="/">
             <div class="flex items-center space-x-2">
-                <span class="text-white text-3xl"><i class="fas fa-store"></i></span>
-                <h1 class="text-2xl font-bold text-white">KILIMO BUZ</h1>
+                {{-- <span class="text-white text-3xl"><i class="fas fa-store"></i></span>
+                <h1 class="text-2xl font-bold text-white">KILIMO BUZ</h1> --}}
+                <img src="{{ asset('imgs/logo.png') }}" alt="Kilimo Buz Logo" class="logo">
             </div>
             </a>
+
+            <!-- Main Navigation -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="/" class="text-white hover:text-green-600 font-medium">Home</a>
+                <a href="/shop" class="text-white hover:text-green-600 font-medium">Shop</a>
+            </div>
 
             <!-- Search Bar -->
             <div class="hidden md:flex items-center flex-1 max-w-xl mx-6">
@@ -22,16 +29,11 @@
                 </form>
             </div>
 
-            <!-- Navigation -->
+            <!-- User Navigation -->
             <nav class="flex items-center space-x-6">
-                <!-- <a href="#" class="hidden md:block text-white hover:text-green-600"><i class="far fa-heart"></i> Favorites</a> -->
-
                 <a href="/login" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
                     Login
                 </a>
-                {{-- <a href="#" class="bg-white-200 text-white px-4 py-2 rounded-lg font-medium hover:bg-white-300 transition-colors">
-                    Sell
-                </a> --}}
                 <button class="md:hidden text-white-700 focus:outline-none">
                     <i class="fas fa-bars text-xl"></i>
                 </button>

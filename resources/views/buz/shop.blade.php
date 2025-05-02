@@ -17,11 +17,9 @@
         <!-- Breadcrumbs -->
         <div class="mb-6">
             <nav class="flex text-sm">
-                <a href="index.html" class="text-gray-500 hover:text-green-600">Home</a>
+                <a href="/" class="text-gray-500 hover:text-green-600">Home</a>
                 <span class="mx-2 text-gray-500">/</span>
-                <a href="shop.html" class="text-gray-500 hover:text-green-600">Shop</a>
-                <span class="mx-2 text-gray-500">/</span>
-                <span class="text-green-600">Products</span>
+                <a href="/shop" class="text-green-500 hover:text-green-600">Shop</a>
             </nav>
         </div>
 
@@ -154,6 +152,10 @@
                             <h2 class="text-xl font-bold text-gray-800">Shop</h2>
                             <p class="text-sm text-gray-500" id="products-count">Showing 1-12 of {{ count($products) }} products</p>
                         </div>
+
+                        {{-- Indicate if search is active --}}
+
+
                         <div class="flex flex-col sm:flex-row w-full md:w-auto space-y-3 sm:space-y-0 sm:space-x-4">
                             <div class="w-full sm:w-48">
                                 <select id="sort-by"
@@ -178,6 +180,17 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Indicate if search is active --}}
+                @if (request()->has('search'))
+                <div class="bg-grey-900 text-center py-4 lg:px-4">
+                    <div class="p-2 bg-green-700 items-center text-green-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+                        <span class="flex rounded-full bg-green-500 uppercase px-2 py-1 text-xs font-bold mr-3">Search</span>
+                        <span class="font-semibold mr-2 text-left flex-auto">Search results for: {{ request()->get('search') }}</span>
+                        <button class="text-sm text-green-100 hover:text-green-300" id="clear-search" onclick="removeSearchParameterFromUrl()">Clear Search</button>
+                    </div>
+                </div>
+                @endif
 
                 <!-- Products Grid -->
                 <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -246,6 +259,20 @@
                 </label>
             `;
             container.appendChild(div);
+        }
+        function removeSearchParameterFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('search');
+            window.history.pushState({}, '', window.location.pathname + '?' + urlParams.toString());
+
+            // Clear the search alert HTML
+            const searchAlert = document.querySelector('.bg-grey-900.text-center');
+            if (searchAlert) {
+                searchAlert.remove();
+            }
+
+            // get all the products
+            filterProducts();
         }
 
         function addCounty(container, county) {
@@ -1030,6 +1057,10 @@
                 params.append('county', filters.county.join(','));
             }
 
+            alert(1)
+
+
+
             params.append('minprice', filters.minprice);
             params.append('maxprice', filters.maxprice);
             params.append('sort', filters.sort);
@@ -1334,7 +1365,12 @@
             }
 
             // Build the URL with query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const search = urlParams.get('search') || '';
             let url = '/api/V1/filterProducts?page=' + currentPage;
+            if (search) {
+                url += '&search=' + encodeURIComponent(search);
+            }
             url += '&sort=' + encodeURIComponent(sortOption);
 
             if (searchTerm) {
@@ -1381,6 +1417,11 @@
                             `;
                         }
                     }
+
+                    // // remove search parameter from url
+                    // const urlParams = new URLSearchParams(window.location.search);
+                    // urlParams.delete('search');
+                    // window.history.pushState({}, '', window.location.pathname + '?' + urlParams.toString());
                 })
                 .catch(error => {
                     console.error('Error filtering products:', error);

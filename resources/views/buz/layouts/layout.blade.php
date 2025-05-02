@@ -36,6 +36,16 @@
         button {
             cursor: pointer;
         }
+        .logo {
+            height: 71px;
+            width: 103px;
+            border-radius: 20px;
+        }
+        .footer-logo {
+            height: 140px;
+            width: 140px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body class="bg-gray-50">

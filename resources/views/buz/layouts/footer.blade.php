@@ -6,7 +6,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- Company Info -->
             <div>
-                <h5 class="text-xl font-bold mb-6">Kilimo Buz</h5>
+                <img src="{{ asset('imgs/logo.png') }}" alt="Kilimo Buz Logo" class="footer-logo">
+                <br>
+
                 <p class="text-gray-300 mb-4">Your one-stop destination for quality products at great prices.</p>
                 <div class="flex space-x-4 mt-6">
                     <a href="#" class="text-gray-300 hover:text-white transition-colors">
@@ -34,12 +36,12 @@
             <div>
                 <h5 class="text-xl font-bold mb-6">Value Chains</h5>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Banana</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Beef</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Fish</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Cow Milk</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Tomato</a></li>
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Vegetables</a></li>
+                    <li><a href="/shop?search=Banana" class="text-gray-300 hover:text-white transition-colors">Banana</a></li>
+                    <li><a href="/shop?search=Beef" class="text-gray-300 hover:text-white transition-colors">Beef</a></li>
+                    <li><a href="/shop?search=Fish" class="text-gray-300 hover:text-white transition-colors">Fish</a></li>
+                    <li><a href="/shop?search=Cow Milk" class="text-gray-300 hover:text-white transition-colors">Cow Milk</a></li>
+                    <li><a href="/shop?search=Tomato" class="text-gray-300 hover:text-white transition-colors">Tomato</a></li>
+                    <li><a href="/shop?search=Vegetables" class="text-gray-300 hover:text-white transition-colors">Vegetables</a></li>
                 </ul>
             </div>
 
@@ -47,7 +49,7 @@
             <div>
                 <h5 class="text-xl font-bold mb-6">Customer Service</h5>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
+                    <li><a href="{{ route('contact') }}" class="text-gray-300 hover:text-white transition-colors">Contact Us</a></li>
                     <li><a href="#" class="text-gray-300 hover:text-white transition-colors">FAQs</a></li>
                     <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Shipping Policy</a></li>
                     <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Returns & Exchanges</a></li>
