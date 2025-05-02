@@ -1,4 +1,3 @@
-
 <header class="bg-white shadow-md sticky top-0 z-50">
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center py-3">
@@ -12,13 +11,15 @@
 
             <!-- Search Bar -->
             <div class="hidden md:flex items-center flex-1 max-w-xl mx-6">
-                <div class="w-full relative">
-                    <input type="text" placeholder="Search farm produce, brands and categories..."
-                        class="w-full py-2 pl-4 pr-10 rounded-lg border border-white focus:outline-none focus:ring-2 focus:ring-green-500" style="color: #fff;">
-                    <button class="absolute right-3 top-2.5 text-white">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
+                <form id="search-form" action="/shop" method="GET" class="w-full">
+                    <div class="w-full relative">
+                        <input type="text" id="header-search" name="search" placeholder="Search farm produce, brands and categories..."
+                            class="w-full py-2 pl-4 pr-10 rounded-lg border border-white focus:outline-none focus:ring-2 focus:ring-green-500" style="color: #fff;">
+                        <button type="submit" class="absolute right-3 top-2.5 text-white">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <!-- Navigation -->
@@ -37,4 +38,20 @@
             </nav>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('header-search');
+
+        if(searchForm) {
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if(searchInput.value.trim()) {
+                    window.location.href = '/shop?search=' + encodeURIComponent(searchInput.value.trim());
+                }
+            });
+        }
+    });
+    </script>
 </header>

@@ -56,4 +56,4 @@ Route::any('/V1/filterProducts', '\App\Http\Controllers\V2\BuzApiController@filt
 Route::any('/V1/test', '\App\Http\Controllers\V2\BuzApiController@testApi');
 
 Route::any('/V1/searchProducts/{search}', '\App\Http\Controllers\V2\BuzApiController@searchProducts');
-Route::any('/V1/getCountyByValueChains/{ids}', '\App\Http\Controllers\V2\BuzApiController@getCountyByValueChain');
+Route::any('/V1/getCountyByValueChains/{ids}', '\App\Http\Controllers\V2\BuzApiController@getCountyByValueChains');

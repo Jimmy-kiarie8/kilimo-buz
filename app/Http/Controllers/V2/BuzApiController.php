@@ -5,29 +5,88 @@ namespace App\Http\Controllers\V2;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Usermanagement\Entities\County;
+use Modules\Usermanagement\Entities\CountyValueChain;
 use Modules\Usermanagement\Entities\Product;
 
 class BuzApiController extends Controller
 {
-    public function searchProducts(Request $request)
+    public function searchProducts(Request $request, $search = null)
     {
-        $search = $request->input('search');
+        // Allow search to come from route parameter or request input
+        $searchTerm = $search ?? $request->input('search');
 
-        $products = Product::where('variety', 'like', "%$search%")
-            ->orWhere('value_chain_name', 'like', "%$search%")
-            ->orWhere('county_name', 'like', "%$search%")
-            ->get();
+        if (empty($searchTerm)) {
+            return response()->json([]);
+        }
 
-        return response()->json($products);
+        $query = Product::query()
+            ->whereNotNull('product_image')
+            ->whereNull('is_deleted')
+            ->where(function ($q) use ($searchTerm) {
+                $q->where('variety', 'like', "%$searchTerm%")
+                  ->orWhere('value_chain_name', 'like', "%$searchTerm%")
+                  ->orWhere('county_name', 'like', "%$searchTerm%")
+                  ->orWhere('product_description', 'like', "%$searchTerm%");
+            })
+            ->orderBy('id', 'desc')
+            ->limit(20);
+
+        $products = $query->get();
+
+        // Format products for response
+        $formattedProducts = [];
+        foreach ($products as $product) {
+            $formattedProducts[] = [
+                'id' => $product->id,
+                'variety' => $product->variety,
+                'product_code' => $product->product_code,
+                'product_image' => $product->product_image,
+                'unit_price' => $product->unit_price,
+                'quantity_available' => $product->quantity_available,
+                'uom' => $product->uom,
+                'county_name' => $product->county_name,
+                'value_chain_name' => $product->value_chain_name,
+                'created_at' => $product->created_at,
+            ];
+        }
+
+        return response()->json($formattedProducts);
     }
 
-    public function getCountyByValueChain(Request $request)
+    public function getCountyByValueChains($ids)
     {
-        $valueChainId = $request->input('value_chain_id');
+        if (empty($ids)) {
+            return response()->json([]);
+        }
 
-        $counties = County::where('value_chain_id', $valueChainId)->get();
+        $valueChainIds = explode(',', $ids);
 
-        return response()->json($counties);
+        // Get counties for the selected value chains
+        $countyIds = CountyValueChain::whereIn('value_chain_id', $valueChainIds)
+            ->distinct()
+            ->pluck('county_id');
+
+        $counties = County::whereIn('id', $countyIds)
+            ->select('id as CountyId', 'county_name as CountyName')
+            ->get();
+
+        if ($counties->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No counties found for these value chains'
+            ]);
+        }
+
+        // Format for the frontend
+        $result = [];
+        foreach ($counties as $county) {
+            $result[] = [
+                'CountyId' => $county->CountyId,
+                'CountyName' => $county->CountyName
+            ];
+        }
+
+        return response()->json($result);
     }
 
     public function filterProducts(Request $request)
@@ -41,6 +100,7 @@ class BuzApiController extends Controller
         $sort = $request->sort ?? 'featured';
         $perPage = $request->perPage ?? 12;
         $page = $request->page ?? 1;
+        $search = $request->search ?? '';
 
         $query = Product::query()
             ->whereNotNull('product_image')
@@ -49,6 +109,16 @@ class BuzApiController extends Controller
             ->where('unit_price', '<=', $maxprice)
             ->where('quantity_available', '>=', $minquantity)
             ->where('quantity_available', '<=', $maxquantity);
+
+        // Add search functionality if search term is provided
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('variety', 'like', "%$search%")
+                  ->orWhere('value_chain_name', 'like', "%$search%")
+                  ->orWhere('county_name', 'like', "%$search%")
+                  ->orWhere('product_description', 'like', "%$search%");
+            });
+        }
 
         // Filter by value chain if provided
         if (!empty($valuechain)) {
@@ -125,6 +195,5 @@ class BuzApiController extends Controller
             'timestamp' => now()
         ]);
     }
-
 }
 

@@ -249,12 +249,25 @@
         }
 
         function addCounty(container, county) {
+            // Check if county has valid data
+            if (!county || !county.CountyId || !county.CountyName) {
+                console.error('Invalid county data:', county);
+                return;
+            }
+
+            // Make sure CountyName is a string
+            const countyName = String(county.CountyName || '').trim();
+            if (!countyName) {
+                console.error('County has empty name:', county);
+                return;
+            }
+
             const div = document.createElement('div');
             div.className = 'flex items-center';
             div.innerHTML = `
                 <input type="checkbox" id="county-${county.CountyId}" class="mr-2" value="${county.CountyId}">
                 <label for="county-${county.CountyId}" class="cursor-pointer text-gray-600 hover:text-green-600">
-                    ${county.CountyName}
+                    ${countyName}
                 </label>
             `;
             container.appendChild(div);
@@ -416,7 +429,21 @@
                         container.appendChild(allDiv);
 
                         // Store all counties
-                        const allCounties = data.counties_list;
+                        const allCounties = data.counties_list.filter(county =>
+                            county && county.CountyId && county.CountyName && county.CountyName.trim() !== '');
+
+                        if (allCounties.length === 0) {
+                            // No valid counties found
+                            const noCountiesDiv = document.createElement('div');
+                            noCountiesDiv.className = 'text-sm text-gray-500 mt-2';
+                            noCountiesDiv.textContent = 'No counties available';
+                            container.appendChild(noCountiesDiv);
+
+                            if (showMoreBtn) {
+                                showMoreBtn.classList.add('hidden');
+                            }
+                            return;
+                        }
 
                         // Show only first 10 initially
                         const initialCounties = allCounties.slice(0, 10);
@@ -443,9 +470,11 @@
                                     showMoreBtn.classList.add('hidden');
                                 });
                             }
+                        } else if (showMoreBtn) {
+                            showMoreBtn.classList.add('hidden');
                         }
 
-                        console.log('Counties populated directly:', data.counties_list.length);
+                        console.log('Counties populated directly:', allCounties.length);
                     } else {
                         console.error('Failed to populate counties directly:', data);
                         createFallbackCounties();
@@ -475,12 +504,18 @@
                                 valueChainCheckboxes.forEach(checkbox => {
                                     checkbox.checked = false;
                                 });
+
+                                // Reload all counties
+                                loadAllCounties();
                             } else {
                                 // If "All" is unchecked, make sure at least one value chain is selected
                                 const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
                                 if (valueChainCheckboxes.length === 0) {
                                     // If no other value chains are checked, keep "All" checked
                                     e.target.checked = true;
+
+                                    // Reload all counties
+                                    loadAllCounties();
                                 }
                             }
                         } else {
@@ -495,6 +530,20 @@
                             if (valueChainCheckboxes.length === 0) {
                                 if (valueChainAll) {
                                     valueChainAll.checked = true;
+
+                                    // Reload all counties
+                                    loadAllCounties();
+                                }
+                            } else {
+                                // Get selected value chains and update counties
+                                const selectedValueChains = [];
+                                valueChainCheckboxes.forEach(checkbox => {
+                                    selectedValueChains.push(checkbox.value);
+                                });
+
+                                // Fetch counties by value chains
+                                if (selectedValueChains.length > 0) {
+                                    fetchCountiesByValueChains(selectedValueChains);
                                 }
                             }
                         }
@@ -632,6 +681,249 @@
 
             // Load initial products
             filterProducts();
+        }
+
+        // Function to load all counties
+        function loadAllCounties() {
+            console.log('Loading all counties');
+
+            const container = document.getElementById('counties-container');
+            const showMoreBtn = document.getElementById('counties-show-more');
+
+            if (!container) {
+                console.error('Cannot find counties-container');
+                return;
+            }
+
+            // Show loading indicators
+            container.innerHTML = `
+                <div class="flex items-center">
+                    <div class="animate-pulse bg-gray-200 h-5 w-5 mr-2 rounded"></div>
+                    <div class="animate-pulse bg-gray-200 h-5 w-32 rounded"></div>
+                </div>
+                <div class="flex items-center">
+                    <div class="animate-pulse bg-gray-200 h-5 w-5 mr-2 rounded"></div>
+                    <div class="animate-pulse bg-gray-200 h-5 w-28 rounded"></div>
+                </div>
+            `;
+
+            // Fetch all counties
+            fetch('/api/V1/GetCounties', {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('All counties data:', data);
+
+                if (data.success && data.counties_list && Array.isArray(data.counties_list)) {
+                    // Clear the container
+                    container.innerHTML = '';
+
+                    // Add "All" option
+                    const allDiv = document.createElement('div');
+                    allDiv.className = 'flex items-center';
+                    allDiv.innerHTML = `
+                        <input type="checkbox" id="county-all" class="mr-2" checked>
+                        <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
+                            All Counties
+                        </label>
+                    `;
+                    container.appendChild(allDiv);
+
+                    // Store all counties
+                    const allCounties = data.counties_list;
+
+                    // Show only first 10 initially
+                    const initialCounties = allCounties.slice(0, 10);
+                    const remainingCounties = allCounties.slice(10);
+
+                    // Add the initial counties
+                    initialCounties.forEach(county => {
+                        addCounty(container, county);
+                    });
+
+                    // If there are more than 10 counties, show the "Show More" button
+                    if (remainingCounties.length > 0 && showMoreBtn) {
+                        showMoreBtn.classList.remove('hidden');
+                        const button = showMoreBtn.querySelector('button');
+                        if (button) {
+                            button.textContent = `Show More (${remainingCounties.length})`;
+                            button.addEventListener('click', function() {
+                                // Add the remaining counties
+                                remainingCounties.forEach(county => {
+                                    addCounty(container, county);
+                                });
+
+                                // Hide the "Show More" button
+                                showMoreBtn.classList.add('hidden');
+                            });
+                        }
+                    } else if (showMoreBtn) {
+                        showMoreBtn.classList.add('hidden');
+                    }
+
+                    console.log('All counties loaded:', data.counties_list.length);
+                } else {
+                    console.error('Failed to load all counties:', data);
+                    createFallbackCounties();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading all counties:', error);
+                createFallbackCounties();
+            });
+        }
+
+        // Function to fetch counties by value chains
+        function fetchCountiesByValueChains(valueChainIds) {
+            console.log('Fetching counties by value chains:', valueChainIds);
+
+            const container = document.getElementById('counties-container');
+            const showMoreBtn = document.getElementById('counties-show-more');
+
+            if (!container) {
+                console.error('Cannot find counties-container');
+                return;
+            }
+
+            // Show loading indicators
+            container.innerHTML = `
+                <div class="flex items-center">
+                    <div class="animate-pulse bg-gray-200 h-5 w-5 mr-2 rounded"></div>
+                    <div class="animate-pulse bg-gray-200 h-5 w-32 rounded"></div>
+                </div>
+                <div class="flex items-center">
+                    <div class="animate-pulse bg-gray-200 h-5 w-5 mr-2 rounded"></div>
+                    <div class="animate-pulse bg-gray-200 h-5 w-28 rounded"></div>
+                </div>
+            `;
+
+            // Create the API URL
+            const idsParam = valueChainIds.join(',');
+            const url = `/api/V1/getCountyByValueChains/${idsParam}`;
+
+            console.log('Fetching counties URL:', url);
+
+            // Fetch counties by value chains
+            fetch(url, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Counties by value chains data:', data);
+
+                // Clear the container
+                container.innerHTML = '';
+
+                // Add "All" option
+                const allDiv = document.createElement('div');
+                allDiv.className = 'flex items-center';
+                allDiv.innerHTML = `
+                    <input type="checkbox" id="county-all" class="mr-2" checked>
+                    <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
+                        All Counties
+                    </label>
+                `;
+                container.appendChild(allDiv);
+
+                // Check if we got an error response
+                if (data.success === false) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'text-sm text-gray-500 mt-2';
+                    errorDiv.textContent = data.message || 'No counties found for the selected value chains';
+                    container.appendChild(errorDiv);
+
+                    if (showMoreBtn) {
+                        showMoreBtn.classList.add('hidden');
+                    }
+                    return;
+                }
+
+                // Check if the response is an array and has items
+                if (Array.isArray(data) && data.length > 0) {
+                    // Store all counties
+                    const allCounties = data;
+
+                    // Show only first 10 initially
+                    const initialCounties = allCounties.slice(0, 10);
+                    const remainingCounties = allCounties.slice(10);
+
+                    // Add the initial counties
+                    initialCounties.forEach(county => {
+                        if (county && county.CountyId && county.CountyName) {
+                            addCounty(container, county);
+                        }
+                    });
+
+                    // If there are more than 10 counties, show the "Show More" button
+                    if (remainingCounties.length > 0 && showMoreBtn) {
+                        showMoreBtn.classList.remove('hidden');
+                        const button = showMoreBtn.querySelector('button');
+                        if (button) {
+                            button.textContent = `Show More (${remainingCounties.length})`;
+                            button.addEventListener('click', function() {
+                                // Add the remaining counties
+                                remainingCounties.forEach(county => {
+                                    if (county && county.CountyId && county.CountyName) {
+                                        addCounty(container, county);
+                                    }
+                                });
+
+                                // Hide the "Show More" button
+                                showMoreBtn.classList.add('hidden');
+                            });
+                        }
+                    } else if (showMoreBtn) {
+                        showMoreBtn.classList.add('hidden');
+                    }
+
+                    console.log('Counties by value chains loaded:', allCounties.length);
+                } else {
+                    // No counties found or empty array
+                    const noCountiesDiv = document.createElement('div');
+                    noCountiesDiv.className = 'text-sm text-gray-500 mt-2';
+                    noCountiesDiv.textContent = 'No counties found for the selected value chains';
+                    container.appendChild(noCountiesDiv);
+
+                    if (showMoreBtn) {
+                        showMoreBtn.classList.add('hidden');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading counties by value chains:', error);
+
+                // Clear the container
+                container.innerHTML = '';
+
+                // Add "All" option
+                const allDiv = document.createElement('div');
+                allDiv.className = 'flex items-center';
+                allDiv.innerHTML = `
+                    <input type="checkbox" id="county-all" class="mr-2" checked>
+                    <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
+                        All Counties
+                    </label>
+                `;
+                container.appendChild(allDiv);
+
+                // Show error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'text-sm text-red-500 mt-2';
+                errorDiv.textContent = 'Error loading counties. Please try again.';
+                container.appendChild(errorDiv);
+
+                if (showMoreBtn) {
+                    showMoreBtn.classList.add('hidden');
+                }
+            });
         }
 
         // Fallback functions when API fails
