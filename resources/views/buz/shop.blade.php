@@ -168,7 +168,7 @@
                                     <option value="popular">Most Popular</option>
                                 </select>
                             </div>
-                            <div class="w-full sm:w-32">
+                            {{-- <div class="w-full sm:w-32">
                                 <select id="per-page"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-green-500">
                                     <option value="12">12 per page</option>
@@ -176,7 +176,7 @@
                                     <option value="36">36 per page</option>
                                     <option value="48">48 per page</option>
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -205,9 +205,11 @@
                                     <i class="far fa-heart text-gray-600"></i>
                                 </button>
                             </div>
+                            @if ($product->created_at > now()->subDays(30))
                             <div class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
                                 NEW
                             </div>
+                            @endif
                         </div>
                         <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">{{ $product->variety }}</h3>
@@ -1161,9 +1163,11 @@
                                     <i class="far fa-heart text-gray-600"></i>
                                 </button>
                             </div>
+                            ${new Date(product.created_at) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? `
                             <div class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
                                 NEW
                             </div>
+                            ` : ''}
                         </div>
                         <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">${product.variety}</h3>
