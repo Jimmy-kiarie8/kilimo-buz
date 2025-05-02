@@ -84,6 +84,10 @@ Route::get('/product-detail/{id}', function ($id) {
     return view('buz.product-detail', $data);
 })->name('product-detail');
 
+Route::get('/wishlist', function () {
+    return view('buz.wishlist');
+})->name('wishlist');
+
 Route::get('/contact', function () {
     return view('buz.contact');
 })->name('contact');

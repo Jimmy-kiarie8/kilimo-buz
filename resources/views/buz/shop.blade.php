@@ -33,7 +33,8 @@
 
         <div class="flex flex-col md:flex-row gap-6">
             <!-- Sidebar Filter -->
-            <div id="filter-sidebar" class="hidden md:block w-full md:w-64 bg-white rounded-lg shadow p-4 md:sticky md:top-4 md:h-screen md:overflow-y-auto">
+            <div id="filter-sidebar"
+                class="hidden md:block w-full md:w-64 bg-white rounded-lg shadow p-4 md:sticky md:top-4 md:h-screen md:overflow-y-auto">
                 <!-- Filter Header -->
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-semibold text-gray-800">Filters</h3>
@@ -150,7 +151,8 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
                         <div class="mb-4 md:mb-0">
                             <h2 class="text-xl font-bold text-gray-800">Shop</h2>
-                            <p class="text-sm text-gray-500" id="products-count">Showing 1-12 of {{ count($products) }} products</p>
+                            <p class="text-sm text-gray-500" id="products-count">Showing 1-12 of {{ count($products) }}
+                                products</p>
                         </div>
 
                         {{-- Indicate if search is active --}}
@@ -183,60 +185,71 @@
 
                 {{-- Indicate if search is active --}}
                 @if (request()->has('search'))
-                <div class="bg-grey-900 text-center py-4 lg:px-4">
-                    <div class="p-2 bg-green-700 items-center text-green-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-                        <span class="flex rounded-full bg-green-500 uppercase px-2 py-1 text-xs font-bold mr-3">Search</span>
-                        <span class="font-semibold mr-2 text-left flex-auto">Search results for: {{ request()->get('search') }}</span>
-                        <button class="text-sm text-green-100 hover:text-green-300" id="clear-search" onclick="removeSearchParameterFromUrl()">Clear Search</button>
+                    <div class="bg-grey-900 text-center py-4 lg:px-4">
+                        <div class="p-2 bg-green-700 items-center text-green-100 leading-none lg:rounded-full flex lg:inline-flex"
+                            role="alert">
+                            <span
+                                class="flex rounded-full bg-green-500 uppercase px-2 py-1 text-xs font-bold mr-3">Search</span>
+                            <span class="font-semibold mr-2 text-left flex-auto">Search results for:
+                                {{ request()->get('search') }}</span>
+                            <button class="text-sm text-green-100 hover:text-green-300" id="clear-search"
+                                onclick="removeSearchParameterFromUrl()">Clear Search</button>
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 <!-- Products Grid -->
                 <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($products as $product)
-                    <!-- Product Card -->
-                    <a href="{{ route('product-detail', $product->id) }}">
-                    <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
-                        <div class="relative">
-                            <img src="{{ asset('MemberProducts/' . $product->product_image) }}" alt="Product image" class="w-full h-48 object-cover">
-                            <div class="absolute top-2 right-2">
-                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                                    <i class="far fa-heart text-gray-600"></i>
-                                </button>
-                            </div>
-                            @if ($product->created_at > now()->subDays(30))
-                            <div class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
-                                NEW
-                            </div>
-                            @endif
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">{{ $product->variety }}</h3>
-                            <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $product->unit_price }}</p>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-400">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
+                        <!-- Product Card -->
+                        <a href="{{ route('product-detail', $product->id) }}">
+                            <div class="bg-white rounded-lg shadow overflow-hidden group product-card">
+                                <div class="relative">
+                                    <img src="{{ asset('MemberProducts/' . $product->product_image) }}" alt="Product image"
+                                        class="w-full h-48 object-cover">
+                                    <div class="absolute top-2 right-2">
+                                        <button
+                                            class="wishlist-btn bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+                                            data-id="{{ $product->id }}"
+                                            onclick="toggleWishlist({{ $product->id }}, '{{ $product->variety }}', '{{ asset('MemberProducts/' . $product->product_image) }}', '{{ $product->unit_price }}', '{{ $product->county_name }}')">
+                                            <i class="heart-icon far fa-heart text-gray-600"></i>
+                                        </button>
+                                    </div>
+                                    @if ($product->created_at > now()->subDays(30))
+                                        <div
+                                            class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
+                                            NEW
+                                        </div>
+                                    @endif
                                 </div>
-                                <span class="text-xs text-gray-500 ml-1">(42)</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center text-sm text-gray-500">
-                                    <i class="fas fa-map-marker-alt mr-1"></i>
-                                    <span>{{ $product->county_name }}</span>
+                                <div class="p-4">
+                                    <h3
+                                        class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
+                                        {{ $product->variety }}</h3>
+                                    <p class="text-green-600 font-bold text-lg mb-2">KSh {{ $product->unit_price }}</p>
+                                    <div class="flex items-center mb-2">
+                                        <div class="flex text-yellow-400">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">(42)</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <i class="fas fa-map-marker-alt mr-1"></i>
+                                            <span>{{ $product->county_name }}</span>
+                                        </div>
+                                        <button
+                                            class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
+                                            View Details
+                                        </button>
+                                    </div>
                                 </div>
-                                <button
-                                    class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
-                                    View Details
-                                </button>
                             </div>
-                        </div>
-                    </div>
-                    </a>
+                        </a>
                     @endforeach
                 </div>
 
@@ -262,6 +275,7 @@
             `;
             container.appendChild(div);
         }
+
         function removeSearchParameterFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.delete('search');
@@ -313,11 +327,11 @@
         function testApiAndLoadData() {
             // Test API connectivity with a simple endpoint
             fetch('/api/V1/GetValueChains', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(response => {
                     console.log('Test API Response Status:', response.status);
                     return response.json();
@@ -330,14 +344,18 @@
                         loadDataAfterTest();
                     } else {
                         console.error('API test not successful:', data);
-                        document.getElementById('value-chains-container').innerHTML = '<div class="text-red-500">Error connecting to API</div>';
-                        document.getElementById('counties-container').innerHTML = '<div class="text-red-500">Error connecting to API</div>';
+                        document.getElementById('value-chains-container').innerHTML =
+                            '<div class="text-red-500">Error connecting to API</div>';
+                        document.getElementById('counties-container').innerHTML =
+                            '<div class="text-red-500">Error connecting to API</div>';
                     }
                 })
                 .catch(error => {
                     console.error('Test API Error:', error);
-                    document.getElementById('value-chains-container').innerHTML = '<div class="text-red-500">Error connecting to API</div>';
-                    document.getElementById('counties-container').innerHTML = '<div class="text-red-500">Error connecting to API</div>';
+                    document.getElementById('value-chains-container').innerHTML =
+                        '<div class="text-red-500">Error connecting to API</div>';
+                    document.getElementById('counties-container').innerHTML =
+                        '<div class="text-red-500">Error connecting to API</div>';
                 });
         }
 
@@ -348,11 +366,11 @@
             console.log('Starting direct value chain population');
 
             fetch('/api/V1/GetValueChains', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     console.log('Direct population - value chains data:', data);
@@ -425,11 +443,11 @@
             console.log('Starting direct counties population');
 
             fetch('/api/V1/GetCounties', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     console.log('Direct population - counties data:', data);
@@ -529,7 +547,8 @@
                         if (e.target.id === 'valuechain-all') {
                             // If "All" is checked, uncheck all other value chains
                             if (e.target.checked) {
-                                const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all)');
+                                const valueChainCheckboxes = document.querySelectorAll(
+                                    '#value-chains-container input[type="checkbox"]:not(#valuechain-all)');
                                 valueChainCheckboxes.forEach(checkbox => {
                                     checkbox.checked = false;
                                 });
@@ -538,7 +557,9 @@
                                 loadAllCounties();
                             } else {
                                 // If "All" is unchecked, make sure at least one value chain is selected
-                                const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
+                                const valueChainCheckboxes = document.querySelectorAll(
+                                    '#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked'
+                                    );
                                 if (valueChainCheckboxes.length === 0) {
                                     // If no other value chains are checked, keep "All" checked
                                     e.target.checked = true;
@@ -555,7 +576,8 @@
                             }
 
                             // If no specific value chains are checked, check "All"
-                            const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
+                            const valueChainCheckboxes = document.querySelectorAll(
+                                '#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
                             if (valueChainCheckboxes.length === 0) {
                                 if (valueChainAll) {
                                     valueChainAll.checked = true;
@@ -591,13 +613,15 @@
                         if (e.target.id === 'county-all') {
                             // If "All" is checked, uncheck all other counties
                             if (e.target.checked) {
-                                const countyCheckboxes = document.querySelectorAll('#counties-container input[type="checkbox"]:not(#county-all)');
+                                const countyCheckboxes = document.querySelectorAll(
+                                    '#counties-container input[type="checkbox"]:not(#county-all)');
                                 countyCheckboxes.forEach(checkbox => {
                                     checkbox.checked = false;
                                 });
                             } else {
                                 // If "All" is unchecked, make sure at least one county is selected
-                                const countyCheckboxes = document.querySelectorAll('#counties-container input[type="checkbox"]:not(#county-all):checked');
+                                const countyCheckboxes = document.querySelectorAll(
+                                    '#counties-container input[type="checkbox"]:not(#county-all):checked');
                                 if (countyCheckboxes.length === 0) {
                                     // If no other counties are checked, keep "All" checked
                                     e.target.checked = true;
@@ -611,7 +635,8 @@
                             }
 
                             // If no specific counties are checked, check "All"
-                            const countyCheckboxes = document.querySelectorAll('#counties-container input[type="checkbox"]:not(#county-all):checked');
+                            const countyCheckboxes = document.querySelectorAll(
+                                '#counties-container input[type="checkbox"]:not(#county-all):checked');
                             if (countyCheckboxes.length === 0) {
                                 if (countyAll) {
                                     countyAll.checked = true;
@@ -641,7 +666,8 @@
             if (minPriceInput) {
                 minPriceInput.addEventListener('input', function() {
                     // Ensure min price doesn't exceed max price if max price is set
-                    if (maxPriceInput && maxPriceInput.value && parseInt(this.value) > parseInt(maxPriceInput.value)) {
+                    if (maxPriceInput && maxPriceInput.value && parseInt(this.value) > parseInt(maxPriceInput
+                        .value)) {
                         this.value = maxPriceInput.value;
                     }
                 });
@@ -654,7 +680,8 @@
             if (maxPriceInput) {
                 maxPriceInput.addEventListener('input', function() {
                     // Ensure max price isn't less than min price if min price is set
-                    if (minPriceInput && minPriceInput.value && parseInt(this.value) < parseInt(minPriceInput.value)) {
+                    if (minPriceInput && minPriceInput.value && parseInt(this.value) < parseInt(minPriceInput
+                        .value)) {
                         this.value = minPriceInput.value;
                     }
                 });
@@ -738,72 +765,72 @@
 
             // Fetch all counties
             fetch('/api/V1/GetCounties', {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('All counties data:', data);
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('All counties data:', data);
 
-                if (data.success && data.counties_list && Array.isArray(data.counties_list)) {
-                    // Clear the container
-                    container.innerHTML = '';
+                    if (data.success && data.counties_list && Array.isArray(data.counties_list)) {
+                        // Clear the container
+                        container.innerHTML = '';
 
-                    // Add "All" option
-                    const allDiv = document.createElement('div');
-                    allDiv.className = 'flex items-center';
-                    allDiv.innerHTML = `
+                        // Add "All" option
+                        const allDiv = document.createElement('div');
+                        allDiv.className = 'flex items-center';
+                        allDiv.innerHTML = `
                         <input type="checkbox" id="county-all" class="mr-2" checked>
                         <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
                             All Counties
                         </label>
                     `;
-                    container.appendChild(allDiv);
+                        container.appendChild(allDiv);
 
-                    // Store all counties
-                    const allCounties = data.counties_list;
+                        // Store all counties
+                        const allCounties = data.counties_list;
 
-                    // Show only first 10 initially
-                    const initialCounties = allCounties.slice(0, 10);
-                    const remainingCounties = allCounties.slice(10);
+                        // Show only first 10 initially
+                        const initialCounties = allCounties.slice(0, 10);
+                        const remainingCounties = allCounties.slice(10);
 
-                    // Add the initial counties
-                    initialCounties.forEach(county => {
-                        addCounty(container, county);
-                    });
+                        // Add the initial counties
+                        initialCounties.forEach(county => {
+                            addCounty(container, county);
+                        });
 
-                    // If there are more than 10 counties, show the "Show More" button
-                    if (remainingCounties.length > 0 && showMoreBtn) {
-                        showMoreBtn.classList.remove('hidden');
-                        const button = showMoreBtn.querySelector('button');
-                        if (button) {
-                            button.textContent = `Show More (${remainingCounties.length})`;
-                            button.addEventListener('click', function() {
-                                // Add the remaining counties
-                                remainingCounties.forEach(county => {
-                                    addCounty(container, county);
+                        // If there are more than 10 counties, show the "Show More" button
+                        if (remainingCounties.length > 0 && showMoreBtn) {
+                            showMoreBtn.classList.remove('hidden');
+                            const button = showMoreBtn.querySelector('button');
+                            if (button) {
+                                button.textContent = `Show More (${remainingCounties.length})`;
+                                button.addEventListener('click', function() {
+                                    // Add the remaining counties
+                                    remainingCounties.forEach(county => {
+                                        addCounty(container, county);
+                                    });
+
+                                    // Hide the "Show More" button
+                                    showMoreBtn.classList.add('hidden');
                                 });
-
-                                // Hide the "Show More" button
-                                showMoreBtn.classList.add('hidden');
-                            });
+                            }
+                        } else if (showMoreBtn) {
+                            showMoreBtn.classList.add('hidden');
                         }
-                    } else if (showMoreBtn) {
-                        showMoreBtn.classList.add('hidden');
-                    }
 
-                    console.log('All counties loaded:', data.counties_list.length);
-                } else {
-                    console.error('Failed to load all counties:', data);
+                        console.log('All counties loaded:', data.counties_list.length);
+                    } else {
+                        console.error('Failed to load all counties:', data);
+                        createFallbackCounties();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading all counties:', error);
                     createFallbackCounties();
-                }
-            })
-            .catch(error => {
-                console.error('Error loading all counties:', error);
-                createFallbackCounties();
-            });
+                });
         }
 
         // Function to fetch counties by value chains
@@ -838,121 +865,121 @@
 
             // Fetch counties by value chains
             fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                },
-                method: 'GET'
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Counties by value chains data:', data);
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    method: 'GET'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Counties by value chains data:', data);
 
-                // Clear the container
-                container.innerHTML = '';
+                    // Clear the container
+                    container.innerHTML = '';
 
-                // Add "All" option
-                const allDiv = document.createElement('div');
-                allDiv.className = 'flex items-center';
-                allDiv.innerHTML = `
+                    // Add "All" option
+                    const allDiv = document.createElement('div');
+                    allDiv.className = 'flex items-center';
+                    allDiv.innerHTML = `
                     <input type="checkbox" id="county-all" class="mr-2" checked>
                     <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
                         All Counties
                     </label>
                 `;
-                container.appendChild(allDiv);
+                    container.appendChild(allDiv);
 
-                // Check if we got an error response
-                if (data.success === false) {
+                    // Check if we got an error response
+                    if (data.success === false) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'text-sm text-gray-500 mt-2';
+                        errorDiv.textContent = data.message || 'No counties found for the selected value chains';
+                        container.appendChild(errorDiv);
+
+                        if (showMoreBtn) {
+                            showMoreBtn.classList.add('hidden');
+                        }
+                        return;
+                    }
+
+                    // Check if the response is an array and has items
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Store all counties
+                        const allCounties = data;
+
+                        // Show only first 10 initially
+                        const initialCounties = allCounties.slice(0, 10);
+                        const remainingCounties = allCounties.slice(10);
+
+                        // Add the initial counties
+                        initialCounties.forEach(county => {
+                            if (county && county.CountyId && county.CountyName) {
+                                addCounty(container, county);
+                            }
+                        });
+
+                        // If there are more than 10 counties, show the "Show More" button
+                        if (remainingCounties.length > 0 && showMoreBtn) {
+                            showMoreBtn.classList.remove('hidden');
+                            const button = showMoreBtn.querySelector('button');
+                            if (button) {
+                                button.textContent = `Show More (${remainingCounties.length})`;
+                                button.addEventListener('click', function() {
+                                    // Add the remaining counties
+                                    remainingCounties.forEach(county => {
+                                        if (county && county.CountyId && county.CountyName) {
+                                            addCounty(container, county);
+                                        }
+                                    });
+
+                                    // Hide the "Show More" button
+                                    showMoreBtn.classList.add('hidden');
+                                });
+                            }
+                        } else if (showMoreBtn) {
+                            showMoreBtn.classList.add('hidden');
+                        }
+
+                        console.log('Counties by value chains loaded:', allCounties.length);
+                    } else {
+                        // No counties found or empty array
+                        const noCountiesDiv = document.createElement('div');
+                        noCountiesDiv.className = 'text-sm text-gray-500 mt-2';
+                        noCountiesDiv.textContent = 'No counties found for the selected value chains';
+                        container.appendChild(noCountiesDiv);
+
+                        if (showMoreBtn) {
+                            showMoreBtn.classList.add('hidden');
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading counties by value chains:', error);
+
+                    // Clear the container
+                    container.innerHTML = '';
+
+                    // Add "All" option
+                    const allDiv = document.createElement('div');
+                    allDiv.className = 'flex items-center';
+                    allDiv.innerHTML = `
+                    <input type="checkbox" id="county-all" class="mr-2" checked>
+                    <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
+                        All Counties
+                    </label>
+                `;
+                    container.appendChild(allDiv);
+
+                    // Show error message
                     const errorDiv = document.createElement('div');
-                    errorDiv.className = 'text-sm text-gray-500 mt-2';
-                    errorDiv.textContent = data.message || 'No counties found for the selected value chains';
+                    errorDiv.className = 'text-sm text-red-500 mt-2';
+                    errorDiv.textContent = 'Error loading counties. Please try again.';
                     container.appendChild(errorDiv);
 
                     if (showMoreBtn) {
                         showMoreBtn.classList.add('hidden');
                     }
-                    return;
-                }
-
-                // Check if the response is an array and has items
-                if (Array.isArray(data) && data.length > 0) {
-                    // Store all counties
-                    const allCounties = data;
-
-                    // Show only first 10 initially
-                    const initialCounties = allCounties.slice(0, 10);
-                    const remainingCounties = allCounties.slice(10);
-
-                    // Add the initial counties
-                    initialCounties.forEach(county => {
-                        if (county && county.CountyId && county.CountyName) {
-                            addCounty(container, county);
-                        }
-                    });
-
-                    // If there are more than 10 counties, show the "Show More" button
-                    if (remainingCounties.length > 0 && showMoreBtn) {
-                        showMoreBtn.classList.remove('hidden');
-                        const button = showMoreBtn.querySelector('button');
-                        if (button) {
-                            button.textContent = `Show More (${remainingCounties.length})`;
-                            button.addEventListener('click', function() {
-                                // Add the remaining counties
-                                remainingCounties.forEach(county => {
-                                    if (county && county.CountyId && county.CountyName) {
-                                        addCounty(container, county);
-                                    }
-                                });
-
-                                // Hide the "Show More" button
-                                showMoreBtn.classList.add('hidden');
-                            });
-                        }
-                    } else if (showMoreBtn) {
-                        showMoreBtn.classList.add('hidden');
-                    }
-
-                    console.log('Counties by value chains loaded:', allCounties.length);
-                } else {
-                    // No counties found or empty array
-                    const noCountiesDiv = document.createElement('div');
-                    noCountiesDiv.className = 'text-sm text-gray-500 mt-2';
-                    noCountiesDiv.textContent = 'No counties found for the selected value chains';
-                    container.appendChild(noCountiesDiv);
-
-                    if (showMoreBtn) {
-                        showMoreBtn.classList.add('hidden');
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error loading counties by value chains:', error);
-
-                // Clear the container
-                container.innerHTML = '';
-
-                // Add "All" option
-                const allDiv = document.createElement('div');
-                allDiv.className = 'flex items-center';
-                allDiv.innerHTML = `
-                    <input type="checkbox" id="county-all" class="mr-2" checked>
-                    <label for="county-all" class="cursor-pointer text-gray-600 hover:text-green-600">
-                        All Counties
-                    </label>
-                `;
-                container.appendChild(allDiv);
-
-                // Show error message
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'text-sm text-red-500 mt-2';
-                errorDiv.textContent = 'Error loading counties. Please try again.';
-                container.appendChild(errorDiv);
-
-                if (showMoreBtn) {
-                    showMoreBtn.classList.add('hidden');
-                }
-            });
+                });
         }
 
         // Fallback functions when API fails
@@ -977,12 +1004,26 @@
             container.appendChild(allDiv);
 
             // Add some example value chains
-            const fallbackValueChains = [
-                { ValueChainId: 1, ValueChainName: 'Maize' },
-                { ValueChainId: 2, ValueChainName: 'Rice' },
-                { ValueChainId: 3, ValueChainName: 'Wheat' },
-                { ValueChainId: 4, ValueChainName: 'Dairy' },
-                { ValueChainId: 5, ValueChainName: 'Poultry' }
+            const fallbackValueChains = [{
+                    ValueChainId: 1,
+                    ValueChainName: 'Maize'
+                },
+                {
+                    ValueChainId: 2,
+                    ValueChainName: 'Rice'
+                },
+                {
+                    ValueChainId: 3,
+                    ValueChainName: 'Wheat'
+                },
+                {
+                    ValueChainId: 4,
+                    ValueChainName: 'Dairy'
+                },
+                {
+                    ValueChainId: 5,
+                    ValueChainName: 'Poultry'
+                }
             ];
 
             fallbackValueChains.forEach(valueChain => {
@@ -1019,12 +1060,26 @@
             container.appendChild(allDiv);
 
             // Add some example counties
-            const fallbackCounties = [
-                { CountyId: 1, CountyName: 'Nairobi' },
-                { CountyId: 2, CountyName: 'Mombasa' },
-                { CountyId: 3, CountyName: 'Kisumu' },
-                { CountyId: 4, CountyName: 'Nakuru' },
-                { CountyId: 5, CountyName: 'Eldoret' }
+            const fallbackCounties = [{
+                    CountyId: 1,
+                    CountyName: 'Nairobi'
+                },
+                {
+                    CountyId: 2,
+                    CountyName: 'Mombasa'
+                },
+                {
+                    CountyId: 3,
+                    CountyName: 'Kisumu'
+                },
+                {
+                    CountyId: 4,
+                    CountyName: 'Nakuru'
+                },
+                {
+                    CountyId: 5,
+                    CountyName: 'Eldoret'
+                }
             ];
 
             fallbackCounties.forEach(county => {
@@ -1046,7 +1101,8 @@
 
             // Show loading state
             if (productsGrid) {
-                productsGrid.innerHTML = '<div class="col-span-3 py-20 text-center"><div class="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-green-600 rounded-full" role="status"><span class="sr-only">Loading...</span></div><p class="mt-2 text-gray-500">Loading products...</p></div>';
+                productsGrid.innerHTML =
+                    '<div class="col-span-3 py-20 text-center"><div class="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-green-600 rounded-full" role="status"><span class="sr-only">Loading...</span></div><p class="mt-2 text-gray-500">Loading products...</p></div>';
             }
             // Construct the query parameters
             const params = new URLSearchParams();
@@ -1073,33 +1129,45 @@
 
             // Make API request
             fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         updateProductsGrid(data.products, data.pagination);
+
+                        // Initialize wishlist icons on newly loaded products
+                        initializeWishlistIcons();
                     } else {
                         if (productsGrid) {
-                            productsGrid.innerHTML = '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
+                            productsGrid.innerHTML =
+                                '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
                         }
                     }
+
+                    // // remove search parameter from url
+                    // const urlParams = new URLSearchParams(window.location.search);
+                    // urlParams.delete('search');
+                    // window.history.pushState({}, '', window.location.pathname + '?' + urlParams.toString());
                 })
                 .catch(error => {
                     console.error('Error applying filters:', error);
                     if (productsGrid) {
-                        productsGrid.innerHTML = '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
+                        productsGrid.innerHTML =
+                            '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
                     }
                 });
         }
 
         function collectFilters() {
             // Get all the current filter values from the DOM
-            const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
-            const countyCheckboxes = document.querySelectorAll('#counties-container input[type="checkbox"]:not(#county-all):checked');
+            const valueChainCheckboxes = document.querySelectorAll(
+                '#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
+            const countyCheckboxes = document.querySelectorAll(
+                '#counties-container input[type="checkbox"]:not(#county-all):checked');
             const minPriceInput = document.getElementById('min-price');
             const maxPriceInput = document.getElementById('max-price');
             const sortBySelect = document.getElementById('sort-by');
@@ -1137,7 +1205,8 @@
             if (!productsGrid) return;
 
             if (products.length === 0) {
-                productsGrid.innerHTML = '<div class="col-span-3 py-10 text-center"><p class="text-gray-500">No products found matching your filters.</p></div>';
+                productsGrid.innerHTML =
+                    '<div class="col-span-3 py-10 text-center"><p class="text-gray-500">No products found matching your filters.</p></div>';
                 if (productsCount) {
                     productsCount.textContent = 'Showing 0 products';
                 }
@@ -1155,29 +1224,32 @@
                     '/placeholder.png';
 
                 productCard.innerHTML = `
-                    <a href="/product-detail/${product.id}">
-                        <div class="relative">
-                            <img src="${imageUrl}" alt="${product.variety}" class="w-full h-48 object-cover">
-                            <div class="absolute top-2 right-2">
-                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                                    <i class="far fa-heart text-gray-600"></i>
-                                </button>
-                            </div>
-                            ${new Date(product.created_at) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? `
-                            <div class="absolute top-0 left-0 bg-green-700 text-white text-xs font-medium px-2 py-1">
-                                NEW
-                            </div>
-                            ` : ''}
+                    <div class="relative">
+                        <img src="${imageUrl}" alt="${product.variety}" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button
+                                class="wishlist-btn bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+                                data-id="${product.id}"
+                                onclick="toggleWishlist(${product.id}, '${product.variety.replace(/'/g, "\\'")}', '${imageUrl}', '${product.unit_price}', '${product.county_name ? product.county_name.replace(/'/g, "\\'") : ''}')">
+                                <i class="heart-icon far fa-heart text-gray-600"></i>
+                            </button>
                         </div>
+                        ${new Date(product.created_at) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) ? `
+                        <div class="absolute top-0 left-0 bg-green-500 text-white text-xs font-medium px-2 py-1">
+                            NEW
+                        </div>
+                        ` : ''}
+                    </div>
+                    <a href="/product-detail/${product.id}">
                         <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">${product.variety}</h3>
-                            <small class="text-gray-500 text-sm">${product.value_chain_name}</small>
+                            <small class="text-gray-500 text-sm">${product.value_chain_name || ''}</small>
                             <p class="text-green-600 font-bold text-lg mb-2">KSh ${product.unit_price}</p>
 
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-sm text-gray-500">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
-                                    <span>${product.county_name}</span>
+                                    <span>${product.county_name || ''}</span>
                                 </div>
                                 <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
                                     View Details
@@ -1190,8 +1262,12 @@
                 productsGrid.appendChild(productCard);
             });
 
+            // Initialize wishlist icons on newly added products
+            initializeWishlistIcons();
+
             if (productsCount) {
-                productsCount.textContent = `Showing ${products.length} of ${pagination.total} product${pagination.total !== 1 ? 's' : ''}`;
+                productsCount.textContent =
+                    `Showing ${products.length} of ${pagination.total} product${pagination.total !== 1 ? 's' : ''}`;
             }
 
             // Update pagination if necessary
@@ -1272,7 +1348,8 @@
 
             // Show loading state
             if (productsGrid) {
-                productsGrid.innerHTML = '<div class="col-span-3 py-20 text-center"><div class="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-green-600 rounded-full" role="status"><span class="sr-only">Loading...</span></div><p class="mt-2 text-gray-500">Loading products...</p></div>';
+                productsGrid.innerHTML =
+                    '<div class="col-span-3 py-20 text-center"><div class="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-green-600 rounded-full" role="status"><span class="sr-only">Loading...</span></div><p class="mt-2 text-gray-500">Loading products...</p></div>';
             }
 
             // Construct the query parameters
@@ -1294,11 +1371,11 @@
 
             // Make API request
             fetch(`/api/V1/filterProducts?${params.toString()}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -1309,16 +1386,21 @@
                             top: document.getElementById('products-grid').offsetTop - 100,
                             behavior: 'smooth'
                         });
+
+                        // Initialize wishlist icons on newly loaded products
+                        initializeWishlistIcons();
                     } else {
                         if (productsGrid) {
-                            productsGrid.innerHTML = '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
+                            productsGrid.innerHTML =
+                                '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
                         }
                     }
                 })
                 .catch(error => {
                     console.error('Error in page navigation:', error);
                     if (productsGrid) {
-                        productsGrid.innerHTML = '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
+                        productsGrid.innerHTML =
+                            '<div class="col-span-3 py-10 text-center"><p class="text-red-500">Error loading products. Please try again.</p></div>';
                     }
                 });
         };
@@ -1339,14 +1421,16 @@
 
             // Get selected value chains
             const selectedValueChains = [];
-            const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
+            const valueChainCheckboxes = document.querySelectorAll(
+                '#value-chains-container input[type="checkbox"]:not(#valuechain-all):checked');
             valueChainCheckboxes.forEach(checkbox => {
                 selectedValueChains.push(checkbox.value);
             });
 
             // Get selected counties
             const selectedCounties = [];
-            const countyCheckboxes = document.querySelectorAll('#counties-container input[type="checkbox"]:not(#county-all):checked');
+            const countyCheckboxes = document.querySelectorAll(
+                '#counties-container input[type="checkbox"]:not(#county-all):checked');
             countyCheckboxes.forEach(checkbox => {
                 selectedCounties.push(checkbox.value);
             });
@@ -1401,17 +1485,20 @@
 
             // Make the API request
             fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     console.log('Filter response:', data);
 
                     if (data.success) {
                         updateProductsGrid(data.products, data.pagination);
+
+                        // Initialize wishlist icons on newly loaded products
+                        initializeWishlistIcons();
                     } else {
                         if (productsGrid) {
                             productsGrid.innerHTML = `
@@ -1454,7 +1541,8 @@
             if (valueChainAll) {
                 valueChainAll.checked = true;
             }
-            const valueChainCheckboxes = document.querySelectorAll('#value-chains-container input[type="checkbox"]:not(#valuechain-all)');
+            const valueChainCheckboxes = document.querySelectorAll(
+                '#value-chains-container input[type="checkbox"]:not(#valuechain-all)');
             valueChainCheckboxes.forEach(checkbox => {
                 checkbox.checked = false;
             });
@@ -1464,7 +1552,8 @@
             if (countyAll) {
                 countyAll.checked = true;
             }
-            const countyCheckboxes = document.querySelectorAll('#counties-container input[type="checkbox"]:not(#county-all)');
+            const countyCheckboxes = document.querySelectorAll(
+                '#counties-container input[type="checkbox"]:not(#county-all)');
             countyCheckboxes.forEach(checkbox => {
                 checkbox.checked = false;
             });
@@ -1487,6 +1576,132 @@
 
             // Reset to initial products
             window.location.reload();
+        }
+
+        // Wishlist functionality
+        function toggleWishlist(id, name, image, price, location) {
+            event.stopPropagation(); // Prevent click from propagating to parent elements
+            event.preventDefault(); // Prevent default anchor behavior
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const index = wishlist.findIndex(item => item.id === id);
+
+            if (index === -1) {
+                // Add to wishlist
+                wishlist.push({
+                    id,
+                    name,
+                    image,
+                    price,
+                    location,
+                    addedAt: new Date().toISOString()
+                });
+                showToast('Product added to wishlist');
+
+                // Change heart icon to solid for all instances of this product
+                const buttons = document.querySelectorAll(`.wishlist-btn[data-id="${id}"]`);
+                buttons.forEach(btn => {
+                    const icon = btn.querySelector('.heart-icon');
+                    icon.classList.remove('far', 'text-gray-600');
+                    icon.classList.add('fas', 'text-red-500');
+                });
+            } else {
+                // Remove from wishlist
+                wishlist.splice(index, 1);
+                showToast('Product removed from wishlist');
+
+                // Change heart icon to regular for all instances of this product
+                const buttons = document.querySelectorAll(`.wishlist-btn[data-id="${id}"]`);
+                buttons.forEach(btn => {
+                    const icon = btn.querySelector('.heart-icon');
+                    icon.classList.remove('fas', 'text-red-500');
+                    icon.classList.add('far', 'text-gray-600');
+                });
+            }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
+        }
+
+        function updateWishlistCount() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlistCountElement = document.getElementById('wishlist-count');
+
+            if (wishlistCountElement) {
+                wishlistCountElement.textContent = wishlist.length;
+
+                if (wishlist.length > 0) {
+                    wishlistCountElement.classList.remove('hidden');
+                } else {
+                    wishlistCountElement.classList.add('hidden');
+                }
+            }
+        }
+
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('toast-notification');
+
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                toast.className =
+                    'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out translate-y-20 opacity-0';
+                document.body.appendChild(toast);
+            }
+
+            // Set message and show toast
+            toast.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initialize wishlist icons on page load and after DOM changes
+        document.addEventListener('DOMContentLoaded', function() {
+            // After other initialization code
+            initializeWishlistIcons();
+            updateWishlistCount();
+
+            // Add event listener for filter changes to re-initialize wishlist icons when products change
+            const applyFiltersButton = document.getElementById('apply-filters');
+            if (applyFiltersButton) {
+                applyFiltersButton.addEventListener('click', function() {
+                    // Initialize after a short delay to ensure DOM is updated
+                    setTimeout(initializeWishlistIcons, 500);
+                });
+            }
+
+            // Add event listener for sort changes
+            const sortSelect = document.getElementById('sort-by');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    // Initialize after a short delay to ensure DOM is updated
+                    setTimeout(initializeWishlistIcons, 500);
+                });
+            }
+        });
+
+        function initializeWishlistIcons() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+
+            wishlistButtons.forEach(btn => {
+                const productId = parseInt(btn.dataset.id);
+                const isInWishlist = wishlist.some(item => item.id === productId);
+                const icon = btn.querySelector('.heart-icon');
+
+                if (isInWishlist) {
+                    icon.classList.remove('far', 'text-gray-600');
+                    icon.classList.add('fas', 'text-red-500');
+                } else {
+                    icon.classList.remove('fas', 'text-red-500');
+                    icon.classList.add('far', 'text-gray-600');
+                }
+            });
         }
     </script>
 @endsection

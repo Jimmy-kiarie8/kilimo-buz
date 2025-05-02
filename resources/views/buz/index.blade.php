@@ -122,17 +122,20 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Produce 1 -->
             @foreach ($featured as $item)
-                <a href="/product-detail/{{ $item->id }}">
-                    <div class="bg-white rounded-lg shadow overflow-hidden group">
-                        <div class="relative">
-                            <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
-                                class="w-full h-48 object-cover">
-                            <div class="absolute top-2 right-2">
-                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                                    <i class="far fa-heart text-gray-600"></i>
-                                </button>
-                            </div>
+                <div class="bg-white rounded-lg shadow overflow-hidden group">
+                    <div class="relative">
+                        <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
+                            class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button
+                                class="wishlist-btn bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+                                data-id="{{ $item->id }}"
+                                onclick="toggleWishlist({{ $item->id }}, '{{ $item->variety }}', '{{ asset('MemberProducts/' . $item->product_image) }}', '{{ $item->unit_price }}', '{{ $item->county_name }}')">
+                                <i class="heart-icon far fa-heart text-gray-600"></i>
+                            </button>
                         </div>
+                    </div>
+                    <a href="/product-detail/{{ $item->id }}">
                         <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
                                 {{ $item->variety }}</h3>
@@ -149,8 +152,8 @@
                                 {{-- <div class="text-xs text-gray-400">Posted 2 days ago</div> --}}
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             @endforeach
         </div>
     </section>
@@ -186,17 +189,20 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <!-- Produce 1 -->
             @foreach ($latest as $item)
-                <a href="/product-detail/{{ $item->id }}">
-                    <div class="bg-white rounded-lg shadow overflow-hidden group">
-                        <div class="relative">
-                            <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
-                                class="w-full h-48 object-cover">
-                            <div class="absolute top-2 right-2">
-                                <button class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors">
-                                    <i class="far fa-heart text-gray-600"></i>
-                                </button>
-                            </div>
+                <div class="bg-white rounded-lg shadow overflow-hidden group">
+                    <div class="relative">
+                        <img src="{{ asset('MemberProducts/' . $item->product_image) }}" alt="Produce image"
+                            class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2">
+                            <button
+                                class="wishlist-btn bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
+                                data-id="{{ $item->id }}"
+                                onclick="toggleWishlist({{ $item->id }}, '{{ $item->variety }}', '{{ asset('MemberProducts/' . $item->product_image) }}', '{{ $item->unit_price }}', '{{ $item->county_name }}')">
+                                <i class="heart-icon far fa-heart text-gray-600"></i>
+                            </button>
                         </div>
+                    </div>
+                    <a href="/product-detail/{{ $item->id }}">
                         <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">
                                 {{ $item->variety }}</h3>
@@ -212,9 +218,8 @@
                                 {{-- <div class="text-xs text-gray-400">Posted 2 hours ago</div> --}}
                             </div>
                         </div>
-                    </div>
-
-                </a>
+                    </a>
+                </div>
             @endforeach
     </section>
 
@@ -374,4 +379,136 @@
             </div>
         </div>
     </section> --}}
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize swiper for categories
+            new Swiper('.swiper-container', {
+                slidesPerView: 2,
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 3,
+                    },
+                    768: {
+                        slidesPerView: 4,
+                    },
+                    1024: {
+                        slidesPerView: 6,
+                    },
+                },
+            });
+
+            // Initialize wishlist icons
+            initializeWishlistIcons();
+        });
+
+        // Wishlist functionality
+        function toggleWishlist(id, name, image, price, location) {
+            event.stopPropagation(); // Prevent click from propagating to parent elements
+            event.preventDefault(); // Prevent default anchor behavior
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const index = wishlist.findIndex(item => item.id === id);
+
+            if (index === -1) {
+                // Add to wishlist
+                wishlist.push({
+                    id,
+                    name,
+                    image,
+                    price,
+                    location,
+                    addedAt: new Date().toISOString()
+                });
+                showToast('Product added to wishlist');
+
+                // Change heart icon to solid for all instances of this product
+                const buttons = document.querySelectorAll(`.wishlist-btn[data-id="${id}"]`);
+                buttons.forEach(btn => {
+                    const icon = btn.querySelector('.heart-icon');
+                    icon.classList.remove('far', 'text-gray-600');
+                    icon.classList.add('fas', 'text-red-500');
+                });
+            } else {
+                // Remove from wishlist
+                wishlist.splice(index, 1);
+                showToast('Product removed from wishlist');
+
+                // Change heart icon to regular for all instances of this product
+                const buttons = document.querySelectorAll(`.wishlist-btn[data-id="${id}"]`);
+                buttons.forEach(btn => {
+                    const icon = btn.querySelector('.heart-icon');
+                    icon.classList.remove('fas', 'text-red-500');
+                    icon.classList.add('far', 'text-gray-600');
+                });
+            }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistCount();
+        }
+
+        function updateWishlistCount() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlistCountElement = document.getElementById('wishlist-count');
+
+            if (wishlistCountElement) {
+                wishlistCountElement.textContent = wishlist.length;
+
+                if (wishlist.length > 0) {
+                    wishlistCountElement.classList.remove('hidden');
+                } else {
+                    wishlistCountElement.classList.add('hidden');
+                }
+            }
+        }
+
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('toast-notification');
+
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                toast.className =
+                    'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out translate-y-20 opacity-0';
+                document.body.appendChild(toast);
+            }
+
+            // Set message and show toast
+            toast.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function initializeWishlistIcons() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+
+            wishlistButtons.forEach(btn => {
+                const productId = parseInt(btn.dataset.id);
+                const isInWishlist = wishlist.some(item => item.id === productId);
+                const icon = btn.querySelector('.heart-icon');
+
+                if (isInWishlist) {
+                    icon.classList.remove('far', 'text-gray-600');
+                    icon.classList.add('fas', 'text-red-500');
+                } else {
+                    icon.classList.remove('fas', 'text-red-500');
+                    icon.classList.add('far', 'text-gray-600');
+                }
+            });
+        }
+    </script>
 @endsection

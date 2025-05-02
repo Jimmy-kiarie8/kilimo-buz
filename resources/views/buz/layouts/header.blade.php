@@ -14,6 +14,12 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="/" class="text-white hover:text-green-600 font-medium">Home</a>
                 <a href="/shop" class="text-white hover:text-green-600 font-medium">Shop</a>
+                <a href="{{ route('wishlist') }}" class="text-white hover:text-green-600 font-medium relative">
+                    <div class="flex items-center">
+                        <i class="far fa-heart mr-1"></i> Wishlist
+                        <span id="wishlist-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </div>
+                </a>
             </div>
 
             <!-- Search Bar -->
@@ -54,6 +60,25 @@
                 }
             });
         }
+
+        // Initialize wishlist count
+        updateWishlistCount();
     });
+
+    // Update wishlist count badge
+    function updateWishlistCount() {
+        const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+        const wishlistCount = document.getElementById('wishlist-count');
+
+        if (wishlistCount) {
+            wishlistCount.textContent = wishlist.length;
+
+            if (wishlist.length > 0) {
+                wishlistCount.classList.remove('hidden');
+            } else {
+                wishlistCount.classList.add('hidden');
+            }
+        }
+    }
     </script>
 </header>
