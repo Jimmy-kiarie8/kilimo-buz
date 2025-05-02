@@ -844,24 +844,16 @@
                         </div>
                         <div class="p-4">
                             <h3 class="font-medium text-gray-800 mb-1 group-hover:text-green-600 transition-colors">${product.variety}</h3>
+                            <small class="text-gray-500 text-sm">${product.value_chain_name}</small>
                             <p class="text-green-600 font-bold text-lg mb-2">KSh ${product.unit_price}</p>
-                            <div class="flex items-center mb-2">
-                                <div class="flex text-yellow-400">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                                <span class="text-xs text-gray-500 ml-1">(42)</span>
-                            </div>
+
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-sm text-gray-500">
                                     <i class="fas fa-map-marker-alt mr-1"></i>
                                     <span>${product.county_name}</span>
                                 </div>
                                 <button class="bg-green-600 text-white text-sm px-3 py-1 rounded hover:bg-green-700 transition-colors">
-                                    Add to Cart
+                                    View Details
                                 </button>
                             </div>
                         </div>

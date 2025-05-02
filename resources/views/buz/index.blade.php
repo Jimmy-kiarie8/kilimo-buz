@@ -60,16 +60,16 @@
                     <div class="hero-slider swiper">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
+                                <img src="https://images.pexels.com/photos/3307282/pexels-photo-3307282.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                    alt="Farmer with produce" class="rounded-lg shadow-lg">
+                            </div>
+                            <div class="swiper-slide">
                                 <img src="https://images.pexels.com/photos/422218/pexels-photo-422218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     alt="People shopping online" class="rounded-lg shadow-lg">
                             </div>
                             <div class="swiper-slide">
                                 <img src="https://images.pexels.com/photos/1656663/pexels-photo-1656663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     alt="Fresh produce" class="rounded-lg shadow-lg">
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://images.pexels.com/photos/2284166/pexels-photo-2284166.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                                    alt="Farmer with produce" class="rounded-lg shadow-lg">
                             </div>
                         </div>
                         {{-- <div class="swiper-pagination hero-slider-pagination"></div> --}}

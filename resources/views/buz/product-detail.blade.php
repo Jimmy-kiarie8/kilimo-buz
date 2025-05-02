@@ -19,7 +19,7 @@
         <!-- Product Info -->
         <div class="bg-white rounded-lg shadow-lg p-6">
             <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $product->variety }}</h1>
-            <div class="flex items-center mb-6">
+            {{-- <div class="flex items-center mb-6">
                 <div class="flex text-yellow-400 mr-2">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -28,7 +28,7 @@
                     <i class="fas fa-star-half-alt"></i>
                 </div>
                 <span class="text-gray-500">(42 reviews)</span>
-            </div>
+            </div> --}}
 
             <div class="space-y-4 mb-8">
                 <div class="flex items-center">
